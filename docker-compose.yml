@@ -1,0 +1,19 @@
+services:
+  db:
+    image: mysql
+
+    ports:
+      - 8080:3306
+
+    container_name: mysql_db
+
+    restart: always
+
+    volumes:
+      - ./data-api:/var/lib/mysql
+
+    env_file:
+      - .env
+  
+volumes:
+  data-api:
