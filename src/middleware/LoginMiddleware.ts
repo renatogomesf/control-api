@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
+import { LoginUserDTO } from "../dtos/login.dto";
 
 class LoginMiddleware{
     async verifyLoginrUser(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
-            const { email, password } = req.body;
+            const { email, password }: LoginUserDTO = req.body;
                 
             if( !email || !password ){
                return res.status(400).send({message: "all fields are required"})

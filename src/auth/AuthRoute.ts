@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import { userRepository } from "../repositories/userRepository";
+import { AuthDTO } from "../dtos/auth.dto";
+import { UserDTO } from "../dtos/userDto/user.dto";
 
 interface JwtPayload {
   email: string
@@ -19,9 +21,9 @@ class AuthRoute {
       try {
         const isValid = jwt.verify(authorization, String(process.env.KEY)) as JwtPayload;
 
-        const { email, password } = isValid;
+        const { email, password }: AuthDTO = isValid;
 
-        const userExists = await userRepository.findOne({
+        const userExists: UserDTO | null = await userRepository.findOne({
           where: {
             email,
             password,
