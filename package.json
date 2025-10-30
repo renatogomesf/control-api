@@ -4,7 +4,8 @@
   "main": "src/server.ts",
   "scripts": {
     "docker": "docker compose up -d",
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +14,13 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.7.2",
+    "@types/supertest": "^6.0.3",
     "@types/swagger-ui-express": "^4.1.8",
+    "supertest": "^7.1.4",
     "swagger-autogen": "^2.23.7",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.5"
   },
   "dependencies": {
     "@types/cors": "^2.8.19",

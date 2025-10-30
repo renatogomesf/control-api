@@ -27,3 +27,5 @@ app.use(routerPrivate);
 app.listen(Number(process.env.PORT), String(process.env.HOST), () => {
     console.log('server up');
 });
+
+export default app;
