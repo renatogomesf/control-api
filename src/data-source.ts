@@ -1,12 +1,12 @@
-import "reflect-metadata"
-import { DataSource } from "typeorm"
-import "dotenv/config"
+import 'reflect-metadata';
+import { DataSource } from 'typeorm';
+import 'dotenv/config';
 
-import User from "./entity/User"
+import User from './entity/User';
 
 export const AppDataSource = new DataSource({
-    type: "mysql",
-    host:  process.env.MYSQL_HOST,
+    type: 'mysql',
+    host: process.env.MYSQL_HOST,
     port: Number(process.env.MYSQL_PORT),
     username: process.env.USER,
     password: process.env.MYSQL_PASSWORD,
@@ -16,5 +16,4 @@ export const AppDataSource = new DataSource({
     entities: [User],
     subscribers: [],
     migrations: [],
-})
-
+});
