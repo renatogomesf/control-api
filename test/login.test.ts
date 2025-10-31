@@ -1,15 +1,10 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import supertest, { Test } from 'supertest';
+import supertest from 'supertest';
 import app from '../src/server';
 import { AppDataSource } from '../src/data-source';
-import TestAgent from 'supertest/lib/agent';
-
-let server: TestAgent<Test>;
 
 beforeAll(() => {
     AppDataSource.initialize();
-
-    server = supertest(app)
 });
 
 describe('Login test', () => {
@@ -19,7 +14,7 @@ describe('Login test', () => {
             password: '222',
         };
 
-        const response = await server.post('/login').send(user);
+        const response = await supertest(app).post('/login').send(user);
 
         expect(response.status).toEqual(200);
         expect(response.body).toHaveProperty('token');
@@ -31,10 +26,10 @@ describe('Login test', () => {
             password: '222',
         };
 
-        const response = await server.post('/login').send(user);
+        const response = await supertest(app).post('/login').send(user);
 
         expect(response.status).toEqual(401);
-        expect(response.body).toHaveProperty('message','incorrect email or password');
+        expect(response.body).toHaveProperty('message', 'incorrect email or password');
     });
 
     it('dont shold login successfully | password not provided', async () => {
@@ -43,10 +38,10 @@ describe('Login test', () => {
             password: '',
         };
 
-        const response = await server.post('/login').send(user);
+        const response = await supertest(app).post('/login').send(user);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message','all fields are required');
+        expect(response.body).toHaveProperty('message', 'all fields are required');
     });
 
     it('dont shold login successfully | email not provided', async () => {
@@ -55,10 +50,10 @@ describe('Login test', () => {
             password: '123',
         };
 
-        const response = await server.post('/login').send(user);
+        const response = await supertest(app).post('/login').send(user);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message','all fields are required');
+        expect(response.body).toHaveProperty('message', 'all fields are required');
     });
 
     it('dont shold login successfully | Email and password not provided', async () => {
@@ -67,9 +62,9 @@ describe('Login test', () => {
             password: '',
         };
 
-        const response = await server.post('/login').send(user);
+        const response = await supertest(app).post('/login').send(user);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message','all fields are required');
+        expect(response.body).toHaveProperty('message', 'all fields are required');
     });
 });
