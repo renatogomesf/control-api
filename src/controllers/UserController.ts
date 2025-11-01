@@ -7,21 +7,13 @@ class UserController {
     async getOneUser(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const oneUser: UserDTO | null = await userRepository.findOneBy({ idUser: Number(id) });
-
-        if (!oneUser) {
-            return res.status(404).send({ message: 'user not found' });
-        }
+        const oneUser = await userRepository.findOneBy({ idUser: Number(id) }) as UserDTO;
 
         return res.status(200).send(oneUser);
     }
 
     async getAllUser(req: Request, res: Response): Promise<Response> {
-        const allUser: UserDTO[] | null = await userRepository.find();
-
-        if (!allUser) {
-            return res.status(404).send({ message: 'users not found' });
-        }
+        const allUser: UserDTO[] = await userRepository.find();
 
         return res.status(200).send(allUser);
     }
@@ -30,11 +22,7 @@ class UserController {
         const { id } = req.params;
         const { name, lastName, email, password }: updateUserDTO = req.body;
 
-        const updateUser: UserDTO | null = await userRepository.findOneBy({ idUser: Number(id) });
-
-        if (!updateUser) {
-            return res.status(404);
-        }
+        const updateUser = await userRepository.findOneBy({ idUser: Number(id) }) as UserDTO;
 
         updateUser.name = name;
         updateUser.lastName = lastName;
@@ -49,14 +37,10 @@ class UserController {
     async deleteUser(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const deleteUser: UserDTO | null = await userRepository.findOneBy({ idUser: Number(id) });
-
-        if (!deleteUser) {
-            return res.status(404);
-        }
+        const deleteUser = await userRepository.findOneBy({ idUser: Number(id) }) as UserDTO;
 
         const userDeleted: UserDTO = await userRepository.remove(deleteUser);
-
+        
         return res.status(200).send(userDeleted);
     }
 }
