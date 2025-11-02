@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { userRepository } from '../repositories/userRepository';
 import { UserDTO } from '../dtos/userDto/user.dto';
-import { updateUserDTO } from '../dtos/userDto/updateUser.dto';
+import { UpdateUserDTO } from '../dtos/userDto/updateUser.dto';
 
 class UserController {
     async getOneUser(req: Request, res: Response): Promise<Response> {
@@ -20,7 +20,7 @@ class UserController {
 
     async updateUser(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { name, lastName, email, password }: updateUserDTO = req.body;
+        const { name, lastName, email, password }: UpdateUserDTO = req.body;
 
         const updateUser = await userRepository.findOneBy({ idUser: Number(id) }) as UserDTO;
 
