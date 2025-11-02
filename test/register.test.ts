@@ -90,12 +90,16 @@ describe('Register test', () => {
     });
 
     it('dont should register successfully | email already registered', async () => {
+        const allUser = await supertest(app).get('/v1/getalluser');
+
+        const { email }: { email: string } = await allUser.body[0];
+
         const hash: number = Math.floor(Math.random() * 1_000_000) + 1;
 
         const userRegister: RegisterUserDTO = {
             name: `name_${hash}`,
             lastName: `lastName_${hash}`,
-            email: `faisca@gmail.com`,
+            email: email,
             password: '999',
         };
 

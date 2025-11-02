@@ -10,9 +10,13 @@ beforeAll(async () => {
 
 describe('Login test', () => {
     it('should login successfully', async () => {
+        const allUser = await supertest(app).get('/v1/getalluser');
+
+        const { email, password }: LoginUserDTO = await allUser.body[0];
+
         const userLogin: LoginUserDTO = {
-            email: 'faisca@gmail.com',
-            password: '222',
+            email: email,
+            password: password,
         };
 
         const response = await supertest(app).post('/login').send(userLogin);
@@ -23,7 +27,7 @@ describe('Login test', () => {
 
     it('dont should login successfully | incorrect email or password', async () => {
         const userLogin: LoginUserDTO = {
-            email: 'renato@gmail.com',
+            email: 'teste@gmail.com',
             password: '222',
         };
 
@@ -35,7 +39,7 @@ describe('Login test', () => {
 
     it('dont should login successfully | password not provided', async () => {
         const userLogin: LoginUserDTO = {
-            email: 'faisca@gmail.com',
+            email: 'teste@gmail.com',
             password: '',
         };
 

@@ -5,7 +5,10 @@
   "scripts": {
     "docker": "docker compose up -d",
     "dev": "tsx watch src/server.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:login": "vitest run test/login.test.ts",
+    "test:register": "vitest run test/register.test.ts",
+    "test:user": "vitest run test/userTest"
   },
   "keywords": [],
   "author": "",
