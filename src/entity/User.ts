@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import Goal from './Goal';
 
 @Entity()
 export default class User {
@@ -16,6 +17,9 @@ export default class User {
 
     @Column('text')
     password: string;
+
+    @OneToMany(() => Goal, (goal) => goal.user)
+    goals?: Goal[];
 
     @CreateDateColumn()
     createdAt: Date;

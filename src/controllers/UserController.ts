@@ -7,13 +7,13 @@ class UserController {
     async getOneUser(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const oneUser = await userRepository.findOneBy({ idUser: Number(id) }) as UserDTO;
+        const oneUser = (await userRepository.findOneBy({ idUser: Number(id) })) as UserDTO;
 
         return res.status(200).send(oneUser);
     }
 
     async getAllUser(req: Request, res: Response): Promise<Response> {
-        const allUser: UserDTO[] = await userRepository.find();
+        const allUser: UserDTO[] = await userRepository.find({ relations: { goals: true } });
 
         return res.status(200).send(allUser);
     }
@@ -22,7 +22,7 @@ class UserController {
         const { id } = req.params;
         const { name, lastName, email, password }: UpdateUserDTO = req.body;
 
-        const updateUser = await userRepository.findOneBy({ idUser: Number(id) }) as UserDTO;
+        const updateUser = (await userRepository.findOneBy({ idUser: Number(id) })) as UserDTO;
 
         updateUser.name = name;
         updateUser.lastName = lastName;
@@ -37,10 +37,10 @@ class UserController {
     async deleteUser(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const deleteUser = await userRepository.findOneBy({ idUser: Number(id) }) as UserDTO;
+        const deleteUser = (await userRepository.findOneBy({ idUser: Number(id) })) as UserDTO;
 
-        const userDeleted: UserDTO = await userRepository.remove(deleteUser);
-        
+        const userDeleted = await userRepository.remove(deleteUser);
+
         return res.status(200).send(userDeleted);
     }
 }
