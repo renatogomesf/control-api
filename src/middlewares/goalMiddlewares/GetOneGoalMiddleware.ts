@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { goalRepository } from '../../repositories/goalRepository';
+import { GoalDTO } from '../../dtos/goalDto/goal.dto';
 
 class GetOneGoalMiddleware {
     async verifyGetOneGoal(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { idGoal, idUser } = req.params;
 
-        const oneGoal = await goalRepository.findOne({
+        const oneGoal: GoalDTO | null = await goalRepository.findOne({
             where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
             loadRelationIds: true,
         });

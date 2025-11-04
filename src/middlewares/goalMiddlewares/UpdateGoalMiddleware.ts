@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { goalRepository } from '../../repositories/goalRepository';
+import { GoalDTO } from '../../dtos/goalDto/goal.dto';
+import { UpdateGoalDTO } from '../../dtos/goalDto/updateGoal.dto';
 
 class UpdateGoalMiddleware {
     async verifyUpdateGoal(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { idGoal, idUser } = req.params;
-        const { goal, currentValue, totalValue } = req.body;
+        const { goal, currentValue, totalValue }: UpdateGoalDTO = req.body;
 
-        const updateGoal = await goalRepository.findOne({
+        const updateGoal: GoalDTO | null = await goalRepository.findOne({
             where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
         });
 
