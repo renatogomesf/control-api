@@ -6,7 +6,7 @@ class GetAllUserMiddleware {
     async verifyGetAllUser(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const allUser: UserDTO[] | null = await userRepository.find();
 
-        if (!allUser) {
+        if (allUser.length == 0) {
             return res.status(404).send({ message: 'users not found' });
         }
 
