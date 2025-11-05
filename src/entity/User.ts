@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import Goal from './Goal';
+import Revenue from './Revenue';
 
 @Entity()
 export default class User {
@@ -20,6 +21,9 @@ export default class User {
 
     @OneToMany(() => Goal, (goal) => goal.user)
     goals?: Goal[];
+
+    @OneToMany(() => Revenue, (revenue) => revenue.user)
+    revenue?: Revenue[];
 
     @CreateDateColumn()
     createdAt: Date;

@@ -4,6 +4,7 @@ import 'dotenv/config';
 
 import User from './entity/User';
 import Goal from './entity/Goal';
+import Revenue from './entity/Revenue';
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
     database: process.env.MYSQL_DATABASE,
     synchronize: true,
     logging: false,
-    entities: [User, Goal],
+    entities: [User, Goal, Revenue],
     subscribers: [],
     migrations: [],
 });

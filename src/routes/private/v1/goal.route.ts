@@ -8,14 +8,14 @@ import DeleteGoalMiddleware from '../../../middlewares/goalMiddlewares/DeleteGoa
 
 const goalRouter = Router();
 
-goalRouter.get('/getonegoal/:idGoal/:idUser', GetOneGoalMiddleware.verifyGetOneGoal, GoalController.getOneGoal);
+goalRouter.get('/goal/:idGoal/:idUser', GetOneGoalMiddleware.verifyGetOneGoal, GoalController.getOneGoal);
 
-goalRouter.get('/getallgoal', GetAllGoalMiddleware.verifyGetAllGoal, GoalController.getAllGoal);
+goalRouter.get('/goal', GetAllGoalMiddleware.verifyGetAllGoal, GoalController.getAllGoal);
 
-goalRouter.post('/creategoal',CreateGoalMiddleware.verifyCreateGoal , GoalController.createGoal);
+goalRouter.post('/goal',CreateGoalMiddleware.verifyCreateGoal , GoalController.createGoal);
 
-goalRouter.put('/updategoal/:idGoal/:idUser', UpdateGoalMiddleware.verifyUpdateGoal, GoalController.updateGoal);
+goalRouter.put('/goal/:idGoal/:idUser', UpdateGoalMiddleware.verifyUpdateGoal, GoalController.updateGoal);
 
-goalRouter.delete('/deletegoal/:idGoal/:idUser', DeleteGoalMiddleware.verifyDeleteGoal, GoalController.deleteGoal);
+goalRouter.delete('/goal/:idGoal/:idUser', DeleteGoalMiddleware.verifyDeleteGoal, GoalController.deleteGoal);
 
 export default goalRouter;

@@ -7,12 +7,12 @@ import DeleteUserMiddleware from '../../../middlewares/userMiddlewares/DeleteUse
 
 const userRouter = Router();
 
-userRouter.get('/getoneuser/:id', GetOneUserMiddleware.verifyGetOneUser, UserController.getOneUser);
+userRouter.get('/user/:id', GetOneUserMiddleware.verifyGetOneUser, UserController.getOneUser);
 
-userRouter.get('/getalluser', GetAllUserMiddleware.verifyGetAllUser, UserController.getAllUser);
+userRouter.get('/user', GetAllUserMiddleware.verifyGetAllUser, UserController.getAllUser);
 
-userRouter.put('/updateuser/:id', UpdateUserMiddleware.verifyUpdateUser, UserController.updateUser);
+userRouter.put('/user/:id', UpdateUserMiddleware.verifyUpdateUser, UserController.updateUser);
 
-userRouter.delete('/deleteuser/:id', DeleteUserMiddleware.verifyDeleteUser, UserController.deleteUser);
+userRouter.delete('/user/:id', DeleteUserMiddleware.verifyDeleteUser, UserController.deleteUser);
 
 export default userRouter;
