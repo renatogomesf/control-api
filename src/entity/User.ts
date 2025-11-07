@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import Goal from './Goal';
 import Revenue from './Revenue';
 import Expense from './Expense';
+import AmountToReceive from './AmountToReceive';
 
 @Entity()
 export default class User {
@@ -28,6 +29,9 @@ export default class User {
 
     @OneToMany(() => Expense, (expense) => expense.user)
     expense?: Expense[];
+
+    @OneToMany(() => AmountToReceive, (amountToReceive) => amountToReceive.user)
+    amountToReceive?: AmountToReceive[];
 
     @CreateDateColumn()
     createdAt: Date;
