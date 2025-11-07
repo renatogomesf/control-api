@@ -3,6 +3,7 @@ import Goal from './Goal';
 import Revenue from './Revenue';
 import Expense from './Expense';
 import AmountToReceive from './AmountToReceive';
+import AmountToPay from './AmountToPay';
 
 @Entity()
 export default class User {
@@ -32,6 +33,9 @@ export default class User {
 
     @OneToMany(() => AmountToReceive, (amountToReceive) => amountToReceive.user)
     amountToReceive?: AmountToReceive[];
+
+    @OneToMany(() => AmountToPay, (amountToPay) => amountToPay.user)
+    amountToPay?: AmountToPay[];
 
     @CreateDateColumn()
     createdAt: Date;
