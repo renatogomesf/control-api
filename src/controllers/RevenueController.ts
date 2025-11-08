@@ -1,27 +1,30 @@
 import { Request, Response } from 'express';
 import { revenueRepository } from '../repositories/revenueRepository';
 import Revenue from '../entity/Revenue';
+import { RevenueDTO } from '../dtos/revenueDto/revenue.dto';
+import { CreateRevenueDTO } from '../dtos/revenueDto/createRevenue.dto';
+import { UpdateRevenueDTO } from '../dtos/revenueDto/updateRevenue.dto';
 
 class RevenueController {
     async getOneRevenue(req: Request, res: Response): Promise<Response> {
         const { idRevenue, idUser } = req.params;
 
-        const oneRevenue = await revenueRepository.findOne({
+        const oneRevenue = (await revenueRepository.findOne({
             where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
             loadRelationIds: true,
-        });
+        })) as RevenueDTO;
 
         return res.status(200).send(oneRevenue);
     }
 
     async getAllRevenue(req: Request, res: Response): Promise<Response> {
-        const allRevenue = await revenueRepository.find({ loadRelationIds: true });
+        const allRevenue: RevenueDTO[] = await revenueRepository.find({ loadRelationIds: true });
 
         return res.status(200).send(allRevenue);
     }
 
     async createRevenue(req: Request, res: Response): Promise<Response> {
-        const { date, description, value, idUser } = req.body;
+        const { date, description, value, idUser }: CreateRevenueDTO = req.body;
 
         const newRevenue = new Revenue();
 
@@ -30,28 +33,28 @@ class RevenueController {
         newRevenue.value = value;
         newRevenue.user = idUser;
 
-        const revenueCreated = await revenueRepository.save(newRevenue);
+        const revenueCreated: RevenueDTO = await revenueRepository.save(newRevenue);
 
         return res.status(201).send(revenueCreated);
     }
 
     async updateRevenue(req: Request, res: Response): Promise<Response> {
         const { idRevenue, idUser } = req.params;
-        const { date, description, value } = req.body;
+        const { date, description, value }: UpdateRevenueDTO = req.body;
 
-        const updateRevenue = await revenueRepository.findOne({
+        const updateRevenue = (await revenueRepository.findOne({
             where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
-        });
+        })) as RevenueDTO;
 
-        if(!updateRevenue){
-            return res.status(404).send({message: "Revenue not found"})
+        if (!updateRevenue) {
+            return res.status(404).send({ message: 'Revenue not found' });
         }
 
         updateRevenue.date = date;
         updateRevenue.description = description;
         updateRevenue.value = value;
 
-        const revenueUpdated = await revenueRepository.save(updateRevenue);
+        const revenueUpdated: RevenueDTO = await revenueRepository.save(updateRevenue);
 
         return res.status(200).send(revenueUpdated);
     }
@@ -59,15 +62,15 @@ class RevenueController {
     async deleteRevenue(req: Request, res: Response): Promise<Response> {
         const { idRevenue, idUser } = req.params;
 
-        const deleteRevenue = await revenueRepository.findOne({
+        const deleteRevenue = (await revenueRepository.findOne({
             where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
-        });
+        })) as RevenueDTO;
 
-        if(!deleteRevenue){
-            return res.status(404).send({message: "Revenue not found"})
+        if (!deleteRevenue) {
+            return res.status(404).send({ message: 'Revenue not found' });
         }
 
-        const revenueDeleted = await revenueRepository.remove(deleteRevenue);
+        const revenueDeleted: RevenueDTO = await revenueRepository.remove(deleteRevenue);
 
         return res.status(200).send(revenueDeleted);
     }
