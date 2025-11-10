@@ -46,10 +46,6 @@ class RevenueController {
             where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
         })) as RevenueDTO;
 
-        if (!updateRevenue) {
-            return res.status(404).send({ message: 'Revenue not found' });
-        }
-
         updateRevenue.date = date;
         updateRevenue.description = description;
         updateRevenue.value = value;
@@ -65,10 +61,6 @@ class RevenueController {
         const deleteRevenue = (await revenueRepository.findOne({
             where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
         })) as RevenueDTO;
-
-        if (!deleteRevenue) {
-            return res.status(404).send({ message: 'Revenue not found' });
-        }
 
         const revenueDeleted: RevenueDTO = await revenueRepository.remove(deleteRevenue);
 

@@ -1,16 +1,21 @@
 import { Router } from 'express';
 import RevenueController from '../../../controllers/RevenueController';
+import GetOneRevenueMiddleware from '../../../middlewares/revenueMiddlewares/GetOneRevenueMiddleware';
+import GetAllRevenueMiddleware from '../../../middlewares/revenueMiddlewares/GetAllRevenueMiddleware';
+import CreateRevenueMiddleware from '../../../middlewares/revenueMiddlewares/CreateRevenueMiddleware';
+import UpdateRevenueMiddleware from '../../../middlewares/revenueMiddlewares/UpdateRevenueMiddleware';
+import DeleteRevenueMiddleware from '../../../middlewares/revenueMiddlewares/DeleteRevenueMiddleware';
 
 const revenueRoute = Router();
 
-revenueRoute.get('/revenue/:idRevenue/:idUser', RevenueController.getOneRevenue);
+revenueRoute.get('/revenue/:idRevenue/:idUser', GetOneRevenueMiddleware.verifyGetOneRevenue, RevenueController.getOneRevenue);
 
-revenueRoute.get('/revenue', RevenueController.getAllRevenue);
+revenueRoute.get('/revenue', GetAllRevenueMiddleware.verifyGetAllRevenue, RevenueController.getAllRevenue);
 
-revenueRoute.post('/revenue', RevenueController.createRevenue);
+revenueRoute.post('/revenue', CreateRevenueMiddleware.verifyCreateRevenue, RevenueController.createRevenue);
 
-revenueRoute.put('/revenue/:idRevenue/:idUser', RevenueController.updateRevenue);
+revenueRoute.put('/revenue/:idRevenue/:idUser', UpdateRevenueMiddleware.verifyUpdateRevenue, RevenueController.updateRevenue);
 
-revenueRoute.delete('/revenue/:idRevenue/:idUser', RevenueController.deleteRevenue);
+revenueRoute.delete('/revenue/:idRevenue/:idUser', DeleteRevenueMiddleware.verifyDeleteRevenue, RevenueController.deleteRevenue);
 
 export default revenueRoute;
