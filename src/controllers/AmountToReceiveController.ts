@@ -1,27 +1,32 @@
 import { Request, Response } from 'express';
 import { amountToReceiveRepository } from '../repositories/amountToReceiveRepository';
 import AmountToReceive from '../entity/AmountToReceive';
+import { AmountToReceiveDTO } from '../dtos/amountToReceiveDto/amountToReceive.dto';
+import { CreateAmountToReceiveDTO } from '../dtos/amountToReceiveDto/createAmountToReceive.dto';
+import { UpdateAmountToReceiveDTO } from '../dtos/amountToReceiveDto/updateAmountToReceive.dto';
 
 class AmountToReceiveController {
     async getOneAmountToReceive(req: Request, res: Response): Promise<Response> {
         const { idAmountToReceive, idUser } = req.params;
 
-        const oneAmountToReceive = await amountToReceiveRepository.findOne({
+        const oneAmountToReceive = (await amountToReceiveRepository.findOne({
             where: { idAmountToReceive: Number(idAmountToReceive), user: { idUser: Number(idUser) } },
             loadRelationIds: true,
-        });
+        })) as AmountToReceiveDTO;
 
         return res.status(200).send(oneAmountToReceive);
     }
 
     async getAllAmountToReceive(req: Request, res: Response): Promise<Response> {
-        const allAmountToReceive = await amountToReceiveRepository.find({ loadRelationIds: true });
+        const allAmountToReceive: AmountToReceiveDTO[] = await amountToReceiveRepository.find({
+            loadRelationIds: true,
+        });
 
         return res.status(200).send(allAmountToReceive);
     }
 
     async createAmountToReceive(req: Request, res: Response): Promise<Response> {
-        const { date, description, value, idUser } = req.body;
+        const { date, description, value, idUser }: CreateAmountToReceiveDTO = req.body;
 
         const newAmountToReceive = new AmountToReceive();
 
@@ -30,28 +35,24 @@ class AmountToReceiveController {
         newAmountToReceive.value = value;
         newAmountToReceive.user = idUser;
 
-        const amountToReceiveCreated = await amountToReceiveRepository.save(newAmountToReceive);
+        const amountToReceiveCreated: AmountToReceiveDTO = await amountToReceiveRepository.save(newAmountToReceive);
 
         return res.status(201).send(amountToReceiveCreated);
     }
 
     async updateAmountToReceive(req: Request, res: Response): Promise<Response> {
         const { idAmountToReceive, idUser } = req.params;
-        const { date, description, value } = req.body;
+        const { date, description, value }: UpdateAmountToReceiveDTO = req.body;
 
-        const updateAmountToReceive = await amountToReceiveRepository.findOne({
+        const updateAmountToReceive = (await amountToReceiveRepository.findOne({
             where: { idAmountToReceive: Number(idAmountToReceive), user: { idUser: Number(idUser) } },
-        });
-
-        if (!updateAmountToReceive) {
-            return res.status(404).send({ message: 'Amount to receive not found' });
-        }
+        })) as AmountToReceiveDTO;
 
         updateAmountToReceive.date = date;
         updateAmountToReceive.description = description;
         updateAmountToReceive.value = value;
 
-        const amountToReceiveUpdated = await amountToReceiveRepository.save(updateAmountToReceive);
+        const amountToReceiveUpdated: AmountToReceiveDTO = await amountToReceiveRepository.save(updateAmountToReceive);
 
         return res.status(200).send(amountToReceiveUpdated);
     }
@@ -59,15 +60,13 @@ class AmountToReceiveController {
     async deleteAmountToReceive(req: Request, res: Response): Promise<Response> {
         const { idAmountToReceive, idUser } = req.params;
 
-        const deleteAmountToReceive = await amountToReceiveRepository.findOne({
+        const deleteAmountToReceive = (await amountToReceiveRepository.findOne({
             where: { idAmountToReceive: Number(idAmountToReceive), user: { idUser: Number(idUser) } },
-        });
+        })) as AmountToReceiveDTO;
 
-        if (!deleteAmountToReceive) {
-            return res.status(404).send({ message: 'Amount to receive not found' });
-        }
-
-        const amountToReceiveDeleted = await amountToReceiveRepository.remove(deleteAmountToReceive);
+        const amountToReceiveDeleted: AmountToReceiveDTO = await amountToReceiveRepository.remove(
+            deleteAmountToReceive
+        );
 
         return res.status(200).send(amountToReceiveDeleted);
     }
