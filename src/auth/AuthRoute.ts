@@ -19,7 +19,7 @@ class AuthRoute {
 
         if (typeof authorization == 'string') {
             try {
-                const isValid = jwt.verify(authorization, String(process.env.KEY)) as JwtPayload;
+                const isValid = jwt.verify(authorization, String(process.env.JWT_KEY)) as JwtPayload;
 
                 const { email, password }: AuthDTO = isValid;
 

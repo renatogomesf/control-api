@@ -17,7 +17,7 @@ class LoginController {
         });
 
         if (userExists) {
-            const token: string = jwt.sign({ email, password }, String(process.env.KEY), {
+            const token: string = jwt.sign({ email, password }, String(process.env.JWT_KEY), {
                 expiresIn: 240,
             });
 

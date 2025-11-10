@@ -24,7 +24,7 @@ app.use(loginRoute);
 app.use(registerRoute);
 app.use(routerPrivate);
 
-app.listen(Number(process.env.PORT), String(process.env.HOST), () => {
+app.listen(Number(process.env.SERVER_PORT), String(process.env.SERVER_HOST), () => {
     console.log('server up');
 });
 
