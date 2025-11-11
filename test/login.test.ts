@@ -10,7 +10,7 @@ beforeAll(async () => {
 
 describe('Login test', () => {
     it('should login successfully', async () => {
-        const allUser = await supertest(app).get('/v1/getalluser');
+        const allUser = await supertest(app).get('/v1/user');
 
         const { email, password }: LoginUserDTO = await allUser.body[0];
 
@@ -46,7 +46,7 @@ describe('Login test', () => {
         const response = await supertest(app).post('/login').send(userLogin);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message', 'all fields are required');
+        expect(response.body).toHaveProperty('message', 'All fields are required');
     });
 
     it('dont should login successfully | email not provided', async () => {
@@ -58,7 +58,7 @@ describe('Login test', () => {
         const response = await supertest(app).post('/login').send(userLogin);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message', 'all fields are required');
+        expect(response.body).toHaveProperty('message', 'All fields are required');
     });
 
     it('dont should login successfully | Email and password not provided', async () => {
@@ -70,6 +70,6 @@ describe('Login test', () => {
         const response = await supertest(app).post('/login').send(userLogin);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message', 'all fields are required');
+        expect(response.body).toHaveProperty('message', 'All fields are required');
     });
 });

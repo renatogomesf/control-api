@@ -90,7 +90,7 @@ describe('Register test', () => {
     });
 
     it('dont should register successfully | email already registered', async () => {
-        const allUser = await supertest(app).get('/v1/getalluser');
+        const allUser = await supertest(app).get('/v1/user');
 
         const { email }: { email: string } = await allUser.body[0];
 
@@ -106,6 +106,6 @@ describe('Register test', () => {
         const response = await supertest(app).post('/register').send(userRegister);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message', 'email already registered');
+        expect(response.body).toHaveProperty('message', 'Email already registered');
     });
 });
