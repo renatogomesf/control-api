@@ -6,7 +6,7 @@ class LoginMiddleware {
         const { email, password }: LoginUserDTO = req.body;
 
         if (!email || !password) {
-            return res.status(400).send({ message: 'all fields are required' });
+            return res.status(400).send({ message: 'All fields are required' });
         }
 
         next();

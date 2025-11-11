@@ -8,14 +8,26 @@ import DeleteRevenueMiddleware from '../../../middlewares/revenueMiddlewares/Del
 
 const revenueRoute = Router();
 
-revenueRoute.get('/revenue/:idRevenue/:idUser', GetOneRevenueMiddleware.verifyGetOneRevenue, RevenueController.getOneRevenue);
+revenueRoute.get(
+    '/revenue/:idRevenue/:idUser',
+    GetOneRevenueMiddleware.verifyGetOneRevenue,
+    RevenueController.getOneRevenue
+);
 
 revenueRoute.get('/revenue', GetAllRevenueMiddleware.verifyGetAllRevenue, RevenueController.getAllRevenue);
 
 revenueRoute.post('/revenue', CreateRevenueMiddleware.verifyCreateRevenue, RevenueController.createRevenue);
 
-revenueRoute.put('/revenue/:idRevenue/:idUser', UpdateRevenueMiddleware.verifyUpdateRevenue, RevenueController.updateRevenue);
+revenueRoute.put(
+    '/revenue/:idRevenue/:idUser',
+    UpdateRevenueMiddleware.verifyUpdateRevenue,
+    RevenueController.updateRevenue
+);
 
-revenueRoute.delete('/revenue/:idRevenue/:idUser', DeleteRevenueMiddleware.verifyDeleteRevenue, RevenueController.deleteRevenue);
+revenueRoute.delete(
+    '/revenue/:idRevenue/:idUser',
+    DeleteRevenueMiddleware.verifyDeleteRevenue,
+    RevenueController.deleteRevenue
+);
 
 export default revenueRoute;

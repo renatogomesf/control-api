@@ -7,7 +7,7 @@ class GetAllUserMiddleware {
         const allUser: UserDTO[] | null = await userRepository.find();
 
         if (allUser.length == 0) {
-            return res.status(404).send({ message: 'users not found' });
+            return res.status(404).send({ message: 'Users not found' });
         }
 
         next();

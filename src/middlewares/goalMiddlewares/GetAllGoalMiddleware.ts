@@ -7,7 +7,7 @@ class GetAllGoalMiddleware {
         const allGoal: GoalDTO[] = await goalRepository.find({ loadRelationIds: true });
 
         if (allGoal.length == 0) {
-            return res.status(404).send({ message: 'goals not found' });
+            return res.status(404).send({ message: 'Goals not found' });
         }
 
         next();

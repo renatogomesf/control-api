@@ -18,7 +18,7 @@ class RegisterMiddleware {
         });
 
         if (EmailExists) {
-            return res.status(400).send({ message: 'email already registered' });
+            return res.status(400).send({ message: 'Email already registered' });
         }
 
         next();

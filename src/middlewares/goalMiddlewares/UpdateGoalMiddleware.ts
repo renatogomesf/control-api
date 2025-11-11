@@ -17,7 +17,7 @@ class UpdateGoalMiddleware {
         }
 
         if (!goal || !currentValue || !totalValue) {
-            return res.status(400).send({ message: 'all fields are required' });
+            return res.status(400).send({ message: 'All fields are required' });
         }
 
         next();

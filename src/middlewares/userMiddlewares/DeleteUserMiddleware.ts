@@ -9,7 +9,7 @@ class DeleteUserMiddleware {
         const deleteUser: UserDTO | null = await userRepository.findOneBy({ idUser: Number(id) });
 
         if (!deleteUser) {
-            return res.status(404).send({ message: 'user not found' });
+            return res.status(404).send({ message: 'User not found' });
         }
 
         next();

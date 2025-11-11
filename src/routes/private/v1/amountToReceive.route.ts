@@ -8,14 +8,34 @@ import DeleteAmountToReceiveMiddleware from '../../../middlewares/amountToReceiv
 
 const amountToReceiveRoute = Router();
 
-amountToReceiveRoute.get('/amounttoreceive/:idAmountToReceive/:idUser',GetOneAmountToReceiveMiddleware.verifyGetOneAmountToReceive, AmountToReceiveController.getOneAmountToReceive);
+amountToReceiveRoute.get(
+    '/amounttoreceive/:idAmountToReceive/:idUser',
+    GetOneAmountToReceiveMiddleware.verifyGetOneAmountToReceive,
+    AmountToReceiveController.getOneAmountToReceive
+);
 
-amountToReceiveRoute.get('/amounttoreceive',GetAllAmountToReceiveMiddleware.verifyGetAllAmountToReceive, AmountToReceiveController.getAllAmountToReceive);
+amountToReceiveRoute.get(
+    '/amounttoreceive',
+    GetAllAmountToReceiveMiddleware.verifyGetAllAmountToReceive,
+    AmountToReceiveController.getAllAmountToReceive
+);
 
-amountToReceiveRoute.post('/amounttoreceive', CreateAmountToReceiveMiddleware.verifyCreateAmountToReceive, AmountToReceiveController.createAmountToReceive);
+amountToReceiveRoute.post(
+    '/amounttoreceive',
+    CreateAmountToReceiveMiddleware.verifyCreateAmountToReceive,
+    AmountToReceiveController.createAmountToReceive
+);
 
-amountToReceiveRoute.put('/amounttoreceive/:idAmountToReceive/:idUser',UpdateAmountToReceiveMiddleware.verifyUpdateAmountToReceive, AmountToReceiveController.updateAmountToReceive);
+amountToReceiveRoute.put(
+    '/amounttoreceive/:idAmountToReceive/:idUser',
+    UpdateAmountToReceiveMiddleware.verifyUpdateAmountToReceive,
+    AmountToReceiveController.updateAmountToReceive
+);
 
-amountToReceiveRoute.delete('/amounttoreceive/:idAmountToReceive/:idUser',DeleteAmountToReceiveMiddleware.verifyDeleteAmountToReceive, AmountToReceiveController.deleteAmountToReceive);
+amountToReceiveRoute.delete(
+    '/amounttoreceive/:idAmountToReceive/:idUser',
+    DeleteAmountToReceiveMiddleware.verifyDeleteAmountToReceive,
+    AmountToReceiveController.deleteAmountToReceive
+);
 
 export default amountToReceiveRoute;

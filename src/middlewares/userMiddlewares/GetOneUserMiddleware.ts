@@ -9,7 +9,7 @@ class GetOneUserMiddleware {
         const oneUser: UserDTO | null = await userRepository.findOneBy({ idUser: Number(id) });
 
         if (!oneUser) {
-            return res.status(404).send({ message: 'user not found' });
+            return res.status(404).send({ message: 'User not found' });
         }
 
         next();

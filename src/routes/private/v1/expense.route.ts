@@ -8,14 +8,26 @@ import DeleteExpenseMiddleware from '../../../middlewares/expenseMiddlewares/Del
 
 const expenseRoute = Router();
 
-expenseRoute.get('/expense/:idExpense/:idUser', GetOneExpenseMiddleware.verifyGetOneExpense, ExpenseController.getOneExpense);
+expenseRoute.get(
+    '/expense/:idExpense/:idUser',
+    GetOneExpenseMiddleware.verifyGetOneExpense,
+    ExpenseController.getOneExpense
+);
 
 expenseRoute.get('/expense', GetAllExpenseMiddleware.verifyGetAllExpense, ExpenseController.getAllExpense);
 
 expenseRoute.post('/expense', CreateExpenseMiddleware.verifyCreateExpense, ExpenseController.createExpense);
 
-expenseRoute.put('/expense/:idExpense/:idUser', UpdateExpenseMiddleware.verifyUpdateExpense, ExpenseController.updateExpense);
+expenseRoute.put(
+    '/expense/:idExpense/:idUser',
+    UpdateExpenseMiddleware.verifyUpdateExpense,
+    ExpenseController.updateExpense
+);
 
-expenseRoute.delete('/expense/:idExpense/:idUser', DeleteExpenseMiddleware.verifyDeleteExpense, ExpenseController.deleteExpense);
+expenseRoute.delete(
+    '/expense/:idExpense/:idUser',
+    DeleteExpenseMiddleware.verifyDeleteExpense,
+    ExpenseController.deleteExpense
+);
 
 export default expenseRoute;

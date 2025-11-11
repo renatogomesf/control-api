@@ -9,13 +9,13 @@ class UpdateUserMiddleware {
         const { name, lastName, email, password }: UpdateUserDTO = req.body;
 
         if (!name || !lastName || !email || !password) {
-            return res.status(400).send({ message: 'all fields are required' });
+            return res.status(400).send({ message: 'All fields are required' });
         }
 
         const userExists: UserDTO | null = await userRepository.findOneBy({ idUser: Number(id) });
 
         if (!userExists) {
-            return res.status(404).send({message: "user not found"});
+            return res.status(404).send({ message: 'User not found' });
         }
 
         next();

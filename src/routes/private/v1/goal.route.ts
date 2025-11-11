@@ -12,7 +12,7 @@ goalRouter.get('/goal/:idGoal/:idUser', GetOneGoalMiddleware.verifyGetOneGoal, G
 
 goalRouter.get('/goal', GetAllGoalMiddleware.verifyGetAllGoal, GoalController.getAllGoal);
 
-goalRouter.post('/goal',CreateGoalMiddleware.verifyCreateGoal , GoalController.createGoal);
+goalRouter.post('/goal', CreateGoalMiddleware.verifyCreateGoal, GoalController.createGoal);
 
 goalRouter.put('/goal/:idGoal/:idUser', UpdateGoalMiddleware.verifyUpdateGoal, GoalController.updateGoal);
 
