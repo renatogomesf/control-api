@@ -21,9 +21,9 @@ class LoginController {
                 expiresIn: 240,
             });
 
-            return res.cookie('jwt', token).status(200).send({ token: token });
+            return res.status(200).send({ token: token });
         } else {
-            return res.status(401).send({ message: 'incorrect email or password' });
+            return res.status(401).send({ message: 'Incorrect email or password' });
         }
     }
 }
