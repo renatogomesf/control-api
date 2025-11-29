@@ -21,7 +21,15 @@ class LoginController {
                 expiresIn: 240,
             });
 
-            return res.status(200).send({ token: token });
+            return res.status(200).send({
+                token: token,
+                user: {
+                    idUser: userExists.idUser,
+                    name: userExists.name,
+                    lastName: userExists.lastName,
+                    email: userExists.email,
+                },
+            });
         } else {
             return res.status(401).send({ message: 'Incorrect email or password' });
         }

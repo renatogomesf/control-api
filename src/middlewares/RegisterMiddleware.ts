@@ -8,7 +8,7 @@ class RegisterMiddleware {
         const { name, lastName, email, password }: RegisterUserDTO = req.body;
 
         if (!name || !lastName || !email || !password) {
-            return res.status(400).send({ message: 'all fields are required' });
+            return res.status(400).send({ message: 'All fields are required' });
         }
 
         const EmailExists: UserDTO | null = await userRepository.findOne({
