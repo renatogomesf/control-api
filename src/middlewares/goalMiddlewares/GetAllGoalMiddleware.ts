@@ -4,10 +4,14 @@ import { GoalDTO } from '../../dtos/goalDto/goal.dto';
 
 class GetAllGoalMiddleware {
     async verifyGetAllGoal(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        const allGoal: GoalDTO[] = await goalRepository.find({ loadRelationIds: true });
+        const { idUser } = req.params;
 
-        if (allGoal.length == 0) {
-            return res.status(404).send({ message: 'Goals not found' });
+        const oneGoal: GoalDTO[] | null = await goalRepository.find({
+            where: { user: { idUser: Number(idUser) } }
+        });
+
+        if (!oneGoal) {
+            return res.status(404).send({ message: 'Goal not found' });
         }
 
         next();

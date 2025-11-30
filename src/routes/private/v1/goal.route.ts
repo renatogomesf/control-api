@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import GoalController from '../../../controllers/GoalController';
-import GetOneGoalMiddleware from '../../../middlewares/goalMiddlewares/GetOneGoalMiddleware';
 import GetAllGoalMiddleware from '../../../middlewares/goalMiddlewares/GetAllGoalMiddleware';
 import CreateGoalMiddleware from '../../../middlewares/goalMiddlewares/CreateGoalMiddleware';
 import UpdateGoalMiddleware from '../../../middlewares/goalMiddlewares/UpdateGoalMiddleware';
@@ -8,9 +7,7 @@ import DeleteGoalMiddleware from '../../../middlewares/goalMiddlewares/DeleteGoa
 
 const goalRouter = Router();
 
-goalRouter.get('/goal/:idGoal/:idUser', GetOneGoalMiddleware.verifyGetOneGoal, GoalController.getOneGoal);
-
-goalRouter.get('/goal', GetAllGoalMiddleware.verifyGetAllGoal, GoalController.getAllGoal);
+goalRouter.get('/goal/:idUser', GetAllGoalMiddleware.verifyGetAllGoal, GoalController.getAllGoal);
 
 goalRouter.post('/goal', CreateGoalMiddleware.verifyCreateGoal, GoalController.createGoal);
 

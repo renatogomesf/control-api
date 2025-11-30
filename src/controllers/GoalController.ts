@@ -6,21 +6,15 @@ import { CreateGoalDTO } from '../dtos/goalDto/createGoal.dto';
 import { UpdateGoalDTO } from '../dtos/goalDto/updateGoal.dto';
 
 class GoalController {
-    async getOneGoal(req: Request, res: Response): Promise<Response> {
-        const { idGoal, idUser } = req.params;
+    async getAllGoal(req: Request, res: Response): Promise<Response> {
+        const { idUser } = req.params;
 
-        const oneGoal = (await goalRepository.findOne({
-            where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
+        const oneGoal = (await goalRepository.find({
+            where: { user: { idUser: Number(idUser) } },
             loadRelationIds: true,
-        })) as GoalDTO;
+        })) as GoalDTO[];
 
         return res.status(200).send(oneGoal);
-    }
-
-    async getAllGoal(req: Request, res: Response): Promise<Response> {
-        const allGoal: GoalDTO[] = await goalRepository.find({ loadRelationIds: true });
-
-        return res.status(200).send(allGoal);
     }
 
     async createGoal(req: Request, res: Response): Promise<Response> {
