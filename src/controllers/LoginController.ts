@@ -18,7 +18,7 @@ class LoginController {
 
         if (userExists) {
             const token: string = jwt.sign({ email, password }, String(process.env.JWT_KEY), {
-                expiresIn: 240,
+                expiresIn: 600,
             });
 
             return res.status(200).send({

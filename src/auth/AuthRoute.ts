@@ -30,12 +30,13 @@ class AuthRoute {
                     },
                 });
 
-                if (userExists) {
-                    res.status(200);
-                    next();
+                if (!userExists) {
+                    return res.status(401).send({ message: 'Unauthorized' });
                 }
+
+                return res.status(200).send({ message: 'Authorized' });
             } catch (error) {
-                res.status(401).send({ message: error });
+                return res.status(401).send({ message: error });
             }
         }
     }
