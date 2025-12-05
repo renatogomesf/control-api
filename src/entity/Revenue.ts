@@ -15,8 +15,8 @@ export default class Revenue {
     @PrimaryGeneratedColumn()
     idRevenue: number;
 
-    @Column('date')
-    date: Date;
+    @Column('text')
+    date: string;
 
     @Column('text')
     description: string;

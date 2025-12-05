@@ -9,12 +9,12 @@ class GoalController {
     async getAllGoal(req: Request, res: Response): Promise<Response> {
         const { idUser } = req.params;
 
-        const oneGoal = (await goalRepository.find({
+        const goals = (await goalRepository.find({
             where: { user: { idUser: Number(idUser) } },
             loadRelationIds: true,
         })) as GoalDTO[];
 
-        return res.status(200).send(oneGoal);
+        return res.status(200).send(goals);
     }
 
     async createGoal(req: Request, res: Response): Promise<Response> {

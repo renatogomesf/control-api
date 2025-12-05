@@ -4,9 +4,14 @@ import { RevenueDTO } from '../../dtos/revenueDto/revenue.dto';
 
 class GetAllRevenueMiddleware {
     async verifyGetAllRevenue(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        const allRevenue: RevenueDTO[] = await revenueRepository.find({ loadRelationIds: true });
+        const { idUser } = req.params;
 
-        if (allRevenue.length == 0) {
+        const revenues: RevenueDTO[] | null = await revenueRepository.find({
+            where: { user: { idUser: Number(idUser) } },
+            loadRelationIds: true,
+        });
+
+        if (!revenues) {
             return res.status(404).send({ message: 'Revenue not found' });
         }
 

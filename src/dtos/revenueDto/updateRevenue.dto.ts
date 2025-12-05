@@ -1,5 +1,5 @@
 export interface UpdateRevenueDTO {
-    date: Date
+    date: string
     description: string
     value: number
 }

@@ -6,11 +6,11 @@ class GetAllGoalMiddleware {
     async verifyGetAllGoal(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { idUser } = req.params;
 
-        const oneGoal: GoalDTO[] | null = await goalRepository.find({
-            where: { user: { idUser: Number(idUser) } }
+        const goals: GoalDTO[] | null = await goalRepository.find({
+            where: { user: { idUser: Number(idUser) } },
         });
 
-        if (!oneGoal) {
+        if (!goals) {
             return res.status(404).send({ message: 'Goal not found' });
         }
 

@@ -6,21 +6,15 @@ import { CreateRevenueDTO } from '../dtos/revenueDto/createRevenue.dto';
 import { UpdateRevenueDTO } from '../dtos/revenueDto/updateRevenue.dto';
 
 class RevenueController {
-    async getOneRevenue(req: Request, res: Response): Promise<Response> {
-        const { idRevenue, idUser } = req.params;
-
-        const oneRevenue = (await revenueRepository.findOne({
-            where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
-            loadRelationIds: true,
-        })) as RevenueDTO;
-
-        return res.status(200).send(oneRevenue);
-    }
-
     async getAllRevenue(req: Request, res: Response): Promise<Response> {
-        const allRevenue: RevenueDTO[] = await revenueRepository.find({ loadRelationIds: true });
+        const { idUser } = req.params;
 
-        return res.status(200).send(allRevenue);
+        const revenues = (await revenueRepository.find({
+            where: { user: { idUser: Number(idUser) } },
+            loadRelationIds: true,
+        })) as RevenueDTO[];
+
+        return res.status(200).send(revenues);
     }
 
     async createRevenue(req: Request, res: Response): Promise<Response> {

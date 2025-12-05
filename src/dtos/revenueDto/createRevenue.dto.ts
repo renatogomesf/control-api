@@ -1,7 +1,7 @@
 import User from "../../entity/User"
 
 export interface CreateRevenueDTO {
-    date: Date
+    date: string
     description: string
     value: number
     idUser: User

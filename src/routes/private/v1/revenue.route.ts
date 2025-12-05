@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import RevenueController from '../../../controllers/RevenueController';
-import GetOneRevenueMiddleware from '../../../middlewares/revenueMiddlewares/GetOneRevenueMiddleware';
 import GetAllRevenueMiddleware from '../../../middlewares/revenueMiddlewares/GetAllRevenueMiddleware';
 import CreateRevenueMiddleware from '../../../middlewares/revenueMiddlewares/CreateRevenueMiddleware';
 import UpdateRevenueMiddleware from '../../../middlewares/revenueMiddlewares/UpdateRevenueMiddleware';
@@ -8,13 +7,7 @@ import DeleteRevenueMiddleware from '../../../middlewares/revenueMiddlewares/Del
 
 const revenueRoute = Router();
 
-revenueRoute.get(
-    '/revenue/:idRevenue/:idUser',
-    GetOneRevenueMiddleware.verifyGetOneRevenue,
-    RevenueController.getOneRevenue
-);
-
-revenueRoute.get('/revenue', GetAllRevenueMiddleware.verifyGetAllRevenue, RevenueController.getAllRevenue);
+revenueRoute.get('/revenue/:idUser', GetAllRevenueMiddleware.verifyGetAllRevenue, RevenueController.getAllRevenue);
 
 revenueRoute.post('/revenue', CreateRevenueMiddleware.verifyCreateRevenue, RevenueController.createRevenue);
 

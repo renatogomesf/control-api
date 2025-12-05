@@ -2,7 +2,7 @@ import User from '../../entity/User';
 
 export interface RevenueDTO {
     idRevenue: number;
-    date: Date;
+    date: string;
     description: string;
     value: number;
     user: User;
