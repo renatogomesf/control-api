@@ -2,7 +2,8 @@ import User from '../../entity/User';
 
 export interface AmountToPayDTO {
     idAmountToPay: number;
-    date: Date;
+    date: string;
+    name: string;
     description: string;
     value: number;
     user: User;

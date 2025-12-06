@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import AmountToPayController from '../../../controllers/AmountToPayController';
-import GetOneAmountToPayMiddleware from '../../../middlewares/amountToPayMiddlewares/GetOneAmountToPayMiddleware';
 import GetAllAmountToPayMiddleware from '../../../middlewares/amountToPayMiddlewares/GetAllAmountToPayMiddleware';
 import CreateAmountToPayMiddleware from '../../../middlewares/amountToPayMiddlewares/CreateAmountToPayMiddleware';
 import UpdateAmountToPayMiddleware from '../../../middlewares/amountToPayMiddlewares/UpdateAmountToPayMiddleware';
@@ -9,13 +8,7 @@ import DeleteAmountToPayMiddleware from '../../../middlewares/amountToPayMiddlew
 const amountToPayRoute = Router();
 
 amountToPayRoute.get(
-    '/amounttopay/:idAmountToPay/:idUser',
-    GetOneAmountToPayMiddleware.verifyGetOneAmountToPay,
-    AmountToPayController.getOneAmountToPay
-);
-
-amountToPayRoute.get(
-    '/amounttopay',
+    '/amounttopay/:idUser',
     GetAllAmountToPayMiddleware.verifyGetAllAmountToPay,
     AmountToPayController.getAllAmountToPay
 );

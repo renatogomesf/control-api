@@ -5,7 +5,7 @@ import { CreateAmountToPayDTO } from '../../dtos/amountToPayDto/createAmountToPa
 
 class CreateAmountToPayMiddleware {
     async verifyCreateAmountToPay(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        const { date, description, value, idUser }: CreateAmountToPayDTO = req.body;
+        const { date, name, description, value, idUser }: CreateAmountToPayDTO = req.body;
 
         const userExist: UserDTO | null = await userRepository.findOne({ where: { idUser: Number(idUser) } });
 
@@ -13,7 +13,7 @@ class CreateAmountToPayMiddleware {
             return res.status(404).send({ message: 'User not found' });
         }
 
-        if (!date || !description || !value) {
+        if (!date || !name || !description || !value) {
             return res.status(400).send({ message: 'All fields are required' });
         }
 

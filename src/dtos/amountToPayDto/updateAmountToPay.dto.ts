@@ -1,5 +1,6 @@
 export interface UpdateAmountToPayDTO {
-    date: Date;
+    date: string;
+    name: string;
     description: string;
     value: number;
 }

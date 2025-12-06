@@ -6,29 +6,24 @@ import { CreateAmountToPayDTO } from '../dtos/amountToPayDto/createAmountToPay.d
 import { UpdateAmountToPayDTO } from '../dtos/amountToPayDto/updateAmountToPay.dto';
 
 class AmountToPayController {
-    async getOneAmountToPay(req: Request, res: Response): Promise<Response> {
-        const { idAmountToPay, idUser } = req.params;
-
-        const oneAmountToPay = (await amountToPayRepository.findOne({
-            where: { idAmountToPay: Number(idAmountToPay), user: { idUser: Number(idUser) } },
-            loadRelationIds: true,
-        })) as AmountToPayDTO;
-
-        return res.status(200).send(oneAmountToPay);
-    }
-
     async getAllAmountToPay(req: Request, res: Response): Promise<Response> {
-        const allAmountToPay: AmountToPayDTO[] = await amountToPayRepository.find({ loadRelationIds: true });
+        const { idUser } = req.params;
 
-        return res.status(200).send(allAmountToPay);
+        const amountsToPay = (await amountToPayRepository.find({
+            where: { user: { idUser: Number(idUser) } },
+            loadRelationIds: true,
+        })) as AmountToPayDTO[];
+
+        return res.status(200).send(amountsToPay);
     }
 
     async createAmountToPay(req: Request, res: Response): Promise<Response> {
-        const { date, description, value, idUser }: CreateAmountToPayDTO = req.body;
+        const { date, name, description, value, idUser }: CreateAmountToPayDTO = req.body;
 
         const newAmountToPay = new AmountToPay();
 
         newAmountToPay.date = date;
+        newAmountToPay.name = name;
         newAmountToPay.description = description;
         newAmountToPay.value = value;
         newAmountToPay.user = idUser;
@@ -40,13 +35,14 @@ class AmountToPayController {
 
     async updateAmountToPay(req: Request, res: Response): Promise<Response> {
         const { idAmountToPay, idUser } = req.params;
-        const { date, description, value }: UpdateAmountToPayDTO = req.body;
+        const { date, name, description, value }: UpdateAmountToPayDTO = req.body;
 
         const updateAmountToPay = (await amountToPayRepository.findOne({
             where: { idAmountToPay: Number(idAmountToPay), user: { idUser: Number(idUser) } },
         })) as AmountToPayDTO;
 
         updateAmountToPay.date = date;
+        updateAmountToPay.name = name;
         updateAmountToPay.description = description;
         updateAmountToPay.value = value;
 
