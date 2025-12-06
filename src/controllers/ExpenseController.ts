@@ -6,21 +6,15 @@ import { CreateExpenseDTO } from '../dtos/expenseDto/createExpense.dto';
 import { UpdateExpenseDTO } from '../dtos/expenseDto/updateExpense.dto';
 
 class ExpenseController {
-    async getOneExpense(req: Request, res: Response): Promise<Response> {
-        const { idExpense, idUser } = req.params;
-
-        const oneExpense = (await expenseRepository.findOne({
-            where: { idExpense: Number(idExpense), user: { idUser: Number(idUser) } },
-            loadRelationIds: true,
-        })) as ExpenseDTO;
-
-        return res.status(200).send(oneExpense);
-    }
-
     async getAllExpense(req: Request, res: Response): Promise<Response> {
-        const allExpense: ExpenseDTO[] = await expenseRepository.find({ loadRelationIds: true });
+        const { idUser } = req.params;
 
-        return res.status(200).send(allExpense);
+        const expenses = (await expenseRepository.find({
+            where: { user: { idUser: Number(idUser) } },
+            loadRelationIds: true,
+        })) as ExpenseDTO[];
+
+        return res.status(200).send(expenses);
     }
 
     async createExpense(req: Request, res: Response): Promise<Response> {

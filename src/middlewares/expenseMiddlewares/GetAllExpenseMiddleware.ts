@@ -4,9 +4,14 @@ import { ExpenseDTO } from '../../dtos/expenseDto/expense.dto';
 
 class GetAllExpenseMiddleware {
     async verifyGetAllExpense(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        const allExpense: ExpenseDTO[] = await expenseRepository.find({ loadRelationIds: true });
+        const { idUser } = req.params;
 
-        if (allExpense.length == 0) {
+        const expenses: ExpenseDTO[] | null = await expenseRepository.find({
+            where: { user: { idUser: Number(idUser) } },
+            loadRelationIds: true,
+        });
+
+        if (!expenses) {
             return res.status(404).send({ message: 'Expense not found' });
         }
 

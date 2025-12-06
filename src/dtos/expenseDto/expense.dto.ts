@@ -2,7 +2,7 @@ import User from '../../entity/User';
 
 export interface ExpenseDTO {
     idExpense: number;
-    date: Date;
+    date: string;
     description: string;
     value: number;
     user: User;

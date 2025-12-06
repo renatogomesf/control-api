@@ -1,5 +1,5 @@
 export interface UpdateExpenseDTO {
-    date: Date
+    date: string
     description: string
     value: number
 }
