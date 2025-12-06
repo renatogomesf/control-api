@@ -15,8 +15,11 @@ export default class AmountToReceive {
     @PrimaryGeneratedColumn()
     idAmountToReceive: number;
 
-    @Column('date')
-    date: Date;
+    @Column('text')
+    date: string;
+
+    @Column('text')
+    name: string;
 
     @Column('text')
     description: string;

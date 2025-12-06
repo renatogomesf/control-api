@@ -6,7 +6,7 @@ import { UpdateAmountToReceiveDTO } from './../../dtos/amountToReceiveDto/update
 class UpdateAmountToReceiveMiddleware {
     async verifyUpdateAmountToReceive(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { idAmountToReceive, idUser } = req.params;
-        const { date, description, value }: UpdateAmountToReceiveDTO = req.body;
+        const { date, name, description, value }: UpdateAmountToReceiveDTO = req.body;
 
         const updateAmountToReceive: AmountToReceiveDTO | null = await amountToReceiveRepository.findOne({
             where: { idAmountToReceive: Number(idAmountToReceive), user: { idUser: Number(idUser) } },
@@ -16,7 +16,7 @@ class UpdateAmountToReceiveMiddleware {
             return res.status(404).send({ message: 'Amount to receive not found' });
         }
 
-        if (!date || !description || !value) {
+        if (!date || !name || !description || !value) {
             return res.status(400).send({ message: 'All fields are required' });
         }
 

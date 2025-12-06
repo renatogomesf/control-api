@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import AmountToReceiveController from '../../../controllers/AmountToReceiveController';
-import GetOneAmountToReceiveMiddleware from '../../../middlewares/amountToReceiveMiddlewares/GetOneAmountToReceiveMiddleware';
 import GetAllAmountToReceiveMiddleware from '../../../middlewares/amountToReceiveMiddlewares/GetAllAmountToReceiveMiddleware';
 import CreateAmountToReceiveMiddleware from '../../../middlewares/amountToReceiveMiddlewares/CreateAmountToReceiveMiddleware';
 import UpdateAmountToReceiveMiddleware from '../../../middlewares/amountToReceiveMiddlewares/UpdateAmountToReceiveMiddleware';
@@ -9,13 +8,7 @@ import DeleteAmountToReceiveMiddleware from '../../../middlewares/amountToReceiv
 const amountToReceiveRoute = Router();
 
 amountToReceiveRoute.get(
-    '/amounttoreceive/:idAmountToReceive/:idUser',
-    GetOneAmountToReceiveMiddleware.verifyGetOneAmountToReceive,
-    AmountToReceiveController.getOneAmountToReceive
-);
-
-amountToReceiveRoute.get(
-    '/amounttoreceive',
+    '/amounttoreceive/:idUser',
     GetAllAmountToReceiveMiddleware.verifyGetAllAmountToReceive,
     AmountToReceiveController.getAllAmountToReceive
 );

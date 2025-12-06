@@ -4,11 +4,14 @@ import { AmountToReceiveDTO } from '../../dtos/amountToReceiveDto/amountToReceiv
 
 class GetAllAmountToReceiveMiddleware {
     async verifyGetAllAmountToReceive(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        const allAmountToReceive: AmountToReceiveDTO[] = await amountToReceiveRepository.find({
+        const { idUser } = req.params;
+
+        const amountsToReceive: AmountToReceiveDTO[] | null = await amountToReceiveRepository.find({
+            where: { user: { idUser: Number(idUser) } },
             loadRelationIds: true,
         });
 
-        if (allAmountToReceive.length == 0) {
+        if (!amountsToReceive) {
             return res.status(404).send({ message: 'Amount to receive not found' });
         }
 

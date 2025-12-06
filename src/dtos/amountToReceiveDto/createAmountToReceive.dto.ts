@@ -1,7 +1,8 @@
 import User from "../../entity/User"
 
 export interface CreateAmountToReceiveDTO {
-    date: Date
+    date: string;
+    name: string;
     description: string
     value: number
     idUser: User
