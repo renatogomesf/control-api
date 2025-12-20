@@ -8,16 +8,20 @@ class UpdateRevenueMiddleware {
         const { idRevenue, idUser } = req.params;
         const { date, description, value }: UpdateRevenueDTO = req.body;
 
-        const updateRevenue: RevenueDTO | null = await revenueRepository.findOne({
-            where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
-        });
+        try {
+            const updateRevenue: RevenueDTO | null = await revenueRepository.findOne({
+                where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
+            });
 
-        if (!updateRevenue) {
-            return res.status(404).send({ message: 'Revenue not found' });
-        }
+            if (!updateRevenue) {
+                return res.status(404).send({ message: 'Revenue not found' });
+            }
 
-        if (!date || !description || !value) {
-            return res.status(400).send({ message: 'All fields are required' });
+            if (!date || !description || !value) {
+                return res.status(400).send({ message: 'All fields are required' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();

@@ -6,12 +6,16 @@ class DeleteRevenueMiddleware {
     async verifyDeleteRevenue(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { idRevenue, idUser } = req.params;
 
-        const deleteRevenue: RevenueDTO | null = await revenueRepository.findOne({
-            where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
-        });
+        try {
+            const deleteRevenue: RevenueDTO | null = await revenueRepository.findOne({
+                where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
+            });
 
-        if (!deleteRevenue) {
-            return res.status(404).send({ message: 'Revenue not found' });
+            if (!deleteRevenue) {
+                return res.status(404).send({ message: 'Revenue not found' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();

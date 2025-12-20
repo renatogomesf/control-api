@@ -20,45 +20,57 @@ class RevenueController {
     async createRevenue(req: Request, res: Response): Promise<Response> {
         const { date, description, value, idUser }: CreateRevenueDTO = req.body;
 
-        const newRevenue = new Revenue();
+        try {
+            const newRevenue = new Revenue();
 
-        newRevenue.date = date;
-        newRevenue.description = description;
-        newRevenue.value = value;
-        newRevenue.user = idUser;
+            newRevenue.date = date;
+            newRevenue.description = description;
+            newRevenue.value = value;
+            newRevenue.user = idUser;
 
-        const revenueCreated: RevenueDTO = await revenueRepository.save(newRevenue);
+            const revenueCreated: RevenueDTO = await revenueRepository.save(newRevenue);
 
-        return res.status(201).send(revenueCreated);
+            return res.status(201).send(revenueCreated);
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
+        }
     }
 
     async updateRevenue(req: Request, res: Response): Promise<Response> {
         const { idRevenue, idUser } = req.params;
         const { date, description, value }: UpdateRevenueDTO = req.body;
 
-        const updateRevenue = (await revenueRepository.findOne({
-            where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
-        })) as RevenueDTO;
+        try {
+            const updateRevenue = (await revenueRepository.findOne({
+                where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
+            })) as RevenueDTO;
 
-        updateRevenue.date = date;
-        updateRevenue.description = description;
-        updateRevenue.value = value;
+            updateRevenue.date = date;
+            updateRevenue.description = description;
+            updateRevenue.value = value;
 
-        const revenueUpdated: RevenueDTO = await revenueRepository.save(updateRevenue);
+            const revenueUpdated: RevenueDTO = await revenueRepository.save(updateRevenue);
 
-        return res.status(200).send(revenueUpdated);
+            return res.status(200).send(revenueUpdated);
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
+        }
     }
 
     async deleteRevenue(req: Request, res: Response): Promise<Response> {
         const { idRevenue, idUser } = req.params;
 
-        const deleteRevenue = (await revenueRepository.findOne({
-            where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
-        })) as RevenueDTO;
+        try {
+            const deleteRevenue = (await revenueRepository.findOne({
+                where: { idRevenue: Number(idRevenue), user: { idUser: Number(idUser) } },
+            })) as RevenueDTO;
 
-        const revenueDeleted: RevenueDTO = await revenueRepository.remove(deleteRevenue);
+            const revenueDeleted: RevenueDTO = await revenueRepository.remove(deleteRevenue);
 
-        return res.status(200).send(revenueDeleted);
+            return res.status(200).send(revenueDeleted);
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
+        }
     }
 }
 
