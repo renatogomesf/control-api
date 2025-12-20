@@ -8,16 +8,20 @@ class RegisterController {
     async registerUser(req: Request, res: Response): Promise<Response> {
         const { name, lastName, email, password }: RegisterUserDTO = req.body;
 
-        const user: UserDTO = new User();
+        try {
+            const user: UserDTO = new User();
 
-        user.name = name;
-        user.lastName = lastName;
-        user.email = email;
-        user.password = password;
+            user.name = name;
+            user.lastName = lastName;
+            user.email = email;
+            user.password = password;
 
-        const userCreated: UserDTO = await userRepository.save(user);
+            const userCreated: UserDTO = await userRepository.save(user);
 
-        return res.status(201).send(userCreated);
+            return res.status(201).send(userCreated);
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
+        }
     }
 }
 

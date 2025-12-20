@@ -7,14 +7,18 @@ class CreateGoalMiddleware {
     async verifyCreateGoal(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { goal, currentValue, totalValue, idUser }: CreateGoalDTO = req.body;
 
-        const userExist: UserDTO | null = await userRepository.findOne({ where: { idUser: Number(idUser) } });
+        try {
+            const userExist: UserDTO | null = await userRepository.findOne({ where: { idUser: Number(idUser) } });
 
-        if (!userExist) {
-            return res.status(404).send({ message: 'User not found' });
-        }
+            if (!userExist) {
+                return res.status(404).send({ message: 'User not found' });
+            }
 
-        if (!goal || !currentValue || !totalValue) {
-            return res.status(400).send({ message: 'All fields are required' });
+            if (!goal || !currentValue || !totalValue) {
+                return res.status(400).send({ message: 'All fields are required' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();

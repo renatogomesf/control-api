@@ -8,16 +8,20 @@ class UpdateGoalMiddleware {
         const { idGoal, idUser } = req.params;
         const { goal, currentValue, totalValue }: UpdateGoalDTO = req.body;
 
-        const updateGoal: GoalDTO | null = await goalRepository.findOne({
-            where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
-        });
+        try {
+            const updateGoal: GoalDTO | null = await goalRepository.findOne({
+                where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
+            });
 
-        if (!updateGoal) {
-            return res.status(404).send({ message: 'Goal not found' });
-        }
+            if (!updateGoal) {
+                return res.status(404).send({ message: 'Goal not found' });
+            }
 
-        if (!goal || !currentValue || !totalValue) {
-            return res.status(400).send({ message: 'All fields are required' });
+            if (!goal || !currentValue || !totalValue) {
+                return res.status(400).send({ message: 'All fields are required' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();

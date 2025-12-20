@@ -20,45 +20,57 @@ class GoalController {
     async createGoal(req: Request, res: Response): Promise<Response> {
         const { goal, currentValue, totalValue, idUser }: CreateGoalDTO = req.body;
 
-        const newGoal = new Goal();
+        try {
+            const newGoal = new Goal();
 
-        newGoal.goal = goal;
-        newGoal.currentValue = currentValue;
-        newGoal.totalValue = totalValue;
-        newGoal.user = idUser;
+            newGoal.goal = goal;
+            newGoal.currentValue = currentValue;
+            newGoal.totalValue = totalValue;
+            newGoal.user = idUser;
 
-        const goalCreated: GoalDTO = await goalRepository.save(newGoal);
+            const goalCreated: GoalDTO = await goalRepository.save(newGoal);
 
-        return res.status(201).send(goalCreated);
+            return res.status(201).send(goalCreated);
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
+        }
     }
 
     async updateGoal(req: Request, res: Response): Promise<Response> {
         const { idGoal, idUser } = req.params;
         const { goal, currentValue, totalValue }: UpdateGoalDTO = req.body;
 
-        const updateGoal = (await goalRepository.findOne({
-            where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
-        })) as GoalDTO;
+        try {
+            const updateGoal = (await goalRepository.findOne({
+                where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
+            })) as GoalDTO;
 
-        updateGoal.goal = goal;
-        updateGoal.currentValue = currentValue;
-        updateGoal.totalValue = totalValue;
+            updateGoal.goal = goal;
+            updateGoal.currentValue = currentValue;
+            updateGoal.totalValue = totalValue;
 
-        const goalUpdated: GoalDTO = await goalRepository.save(updateGoal);
+            const goalUpdated: GoalDTO = await goalRepository.save(updateGoal);
 
-        return res.status(200).send(goalUpdated);
+            return res.status(200).send(goalUpdated);
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
+        }
     }
 
     async deleteGoal(req: Request, res: Response): Promise<Response> {
         const { idGoal, idUser } = req.params;
 
-        const deleteGoal = (await goalRepository.findOne({
-            where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
-        })) as GoalDTO;
+        try {
+            const deleteGoal = (await goalRepository.findOne({
+                where: { idGoal: Number(idGoal), user: { idUser: Number(idUser) } },
+            })) as GoalDTO;
 
-        const goalDeleted: GoalDTO = await goalRepository.remove(deleteGoal);
+            const goalDeleted: GoalDTO = await goalRepository.remove(deleteGoal);
 
-        return res.status(200).send(goalDeleted);
+            return res.status(200).send(goalDeleted);
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
+        }
     }
 }
 

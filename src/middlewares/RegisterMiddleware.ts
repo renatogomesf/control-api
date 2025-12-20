@@ -11,14 +11,18 @@ class RegisterMiddleware {
             return res.status(400).send({ message: 'All fields are required' });
         }
 
-        const EmailExists: UserDTO | null = await userRepository.findOne({
-            where: {
-                email,
-            },
-        });
+        try {
+            const EmailExists: UserDTO | null = await userRepository.findOne({
+                where: {
+                    email,
+                },
+            });
 
-        if (EmailExists) {
-            return res.status(400).send({ message: 'Email already registered' });
+            if (EmailExists) {
+                return res.status(400).send({ message: 'Email already registered' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();
