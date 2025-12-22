@@ -6,12 +6,16 @@ class DeleteExpenseMiddleware {
     async verifyDeleteExpense(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { idExpense, idUser } = req.params;
 
-        const deleteExpense: ExpenseDTO | null = await expenseRepository.findOne({
-            where: { idExpense: Number(idExpense), user: { idUser: Number(idUser) } },
-        });
+        try {
+            const deleteExpense: ExpenseDTO | null = await expenseRepository.findOne({
+                where: { idExpense: Number(idExpense), user: { idUser: Number(idUser) } },
+            });
 
-        if (!deleteExpense) {
-            return res.status(404).send({ message: 'Expense not found' });
+            if (!deleteExpense) {
+                return res.status(404).send({ message: 'Expense not found' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();
