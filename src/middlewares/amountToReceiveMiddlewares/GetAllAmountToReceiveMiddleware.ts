@@ -6,13 +6,17 @@ class GetAllAmountToReceiveMiddleware {
     async verifyGetAllAmountToReceive(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { idUser } = req.params;
 
-        const amountsToReceive: AmountToReceiveDTO[] | null = await amountToReceiveRepository.find({
-            where: { user: { idUser: Number(idUser) } },
-            loadRelationIds: true,
-        });
+        try {
+            const amountsToReceive: AmountToReceiveDTO[] | null = await amountToReceiveRepository.find({
+                where: { user: { idUser: Number(idUser) } },
+                loadRelationIds: true,
+            });
 
-        if (!amountsToReceive) {
-            return res.status(404).send({ message: 'Amount to receive not found' });
+            if (!amountsToReceive) {
+                return res.status(404).send({ message: 'Amount to receive not found' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();

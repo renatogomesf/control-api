@@ -8,16 +8,20 @@ class UpdateAmountToReceiveMiddleware {
         const { idAmountToReceive, idUser } = req.params;
         const { date, name, description, value }: UpdateAmountToReceiveDTO = req.body;
 
-        const updateAmountToReceive: AmountToReceiveDTO | null = await amountToReceiveRepository.findOne({
-            where: { idAmountToReceive: Number(idAmountToReceive), user: { idUser: Number(idUser) } },
-        });
+        try {
+            const updateAmountToReceive: AmountToReceiveDTO | null = await amountToReceiveRepository.findOne({
+                where: { idAmountToReceive: Number(idAmountToReceive), user: { idUser: Number(idUser) } },
+            });
 
-        if (!updateAmountToReceive) {
-            return res.status(404).send({ message: 'Amount to receive not found' });
-        }
+            if (!updateAmountToReceive) {
+                return res.status(404).send({ message: 'Amount to receive not found' });
+            }
 
-        if (!date || !name || !description || !value) {
-            return res.status(400).send({ message: 'All fields are required' });
+            if (!date || !name || !description || !value) {
+                return res.status(400).send({ message: 'All fields are required' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();
