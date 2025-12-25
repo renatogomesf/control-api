@@ -8,16 +8,20 @@ class UpdateAmountToPayMiddleware {
         const { idAmountToPay, idUser } = req.params;
         const { date, name, description, value }: UpdateAmountToPayDTO = req.body;
 
-        const updateAmountToPay: AmountToPayDTO | null = await amountToPayRepository.findOne({
-            where: { idAmountToPay: Number(idAmountToPay), user: { idUser: Number(idUser) } },
-        });
+        try {
+            const updateAmountToPay: AmountToPayDTO | null = await amountToPayRepository.findOne({
+                where: { idAmountToPay: Number(idAmountToPay), user: { idUser: Number(idUser) } },
+            });
 
-        if (!updateAmountToPay) {
-            return res.status(404).send({ message: 'Amount to pay not found' });
-        }
+            if (!updateAmountToPay) {
+                return res.status(404).send({ message: 'Amount to pay not found' });
+            }
 
-        if (!date || !name || !description || !value) {
-            return res.status(400).send({ message: 'All fields are required' });
+            if (!date || !name || !description || !value) {
+                return res.status(400).send({ message: 'All fields are required' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();

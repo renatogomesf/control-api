@@ -6,12 +6,16 @@ class DeleteAmountToPayMiddleware {
     async verifyDeleteAmountToPay(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { idAmountToPay, idUser } = req.params;
 
-        const deleteAmountToPay: AmountToPayDTO | null = await amountToPayRepository.findOne({
-            where: { idAmountToPay: Number(idAmountToPay), user: { idUser: Number(idUser) } },
-        });
+        try {
+            const deleteAmountToPay: AmountToPayDTO | null = await amountToPayRepository.findOne({
+                where: { idAmountToPay: Number(idAmountToPay), user: { idUser: Number(idUser) } },
+            });
 
-        if (!deleteAmountToPay) {
-            return res.status(404).send({ message: 'Amount to pay not found' });
+            if (!deleteAmountToPay) {
+                return res.status(404).send({ message: 'Amount to pay not found' });
+            }
+        } catch (error) {
+            return res.status(500).send({ message: 'Internal Server Error', error });
         }
 
         next();
