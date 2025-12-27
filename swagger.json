@@ -1,648 +1,706 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "My API",
-        "description": "Description",
+        "title": "Control API",
+        "description": "API para controle financeiro",
         "version": "1.0.0"
     },
     "host": "localhost:3000",
     "basePath": "/",
     "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer {token}"
+        }
+    },
+
+    "security": [{ "Bearer": [] }],
+
+    "tags": [
+        { "name": "Public" },
+        { "name": "User" },
+        { "name": "Goal" },
+        { "name": "Revenue" },
+        { "name": "Expense" },
+        { "name": "AmountToReceive" },
+        { "name": "AmountToPay" }
+    ],
+
     "paths": {
         "/login": {
             "post": {
-                "description": "",
-                "responses": {
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
+                "tags": ["Public"],
+                "summary": "Login do usuário",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": { "$ref": "#/definitions/LoginUserDTO" }
                     }
+                ],
+                "responses": {
+                    "200": { "description": "OK" },
+                    "400": { "description": "Bad Request" },
+                    "401": { "description": "Unauthorized" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
+
         "/register": {
             "post": {
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created"
-                    },
-                    "400": {
-                        "description": "Bad Request"
+                "tags": ["Public"],
+                "summary": "Cadastro de usuário",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": { "$ref": "#/definitions/RegisterUserDTO" }
                     }
+                ],
+                "responses": {
+                    "201": { "description": "Created" },
+                    "400": { "description": "Bad Request" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
-        "/v1/user/{id}": {
+
+        "/auth": {
             "get": {
-                "description": "",
+                "tags": ["Public"],
+                "summary": "Validar token",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true,
                         "type": "string"
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
-            "put": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
-            "delete": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK" },
+                    "401": { "description": "Unauthorized" }
                 }
             }
         },
+
         "/v1/user": {
             "get": {
-                "description": "",
+                "tags": ["User"],
+                "summary": "Listar usuários",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": { "type": "array", "items": { "$ref": "#/definitions/UserDTO" } }
                     },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "404": { "description": "Not Found" }
                 }
             }
         },
-        "/v1/goal/{idGoal}/{idUser}": {
+
+        "/v1/user/{id}": {
             "get": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "idGoal",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "tags": ["User"],
+                "summary": "Buscar usuário",
+                "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserDTO" } },
+                    "404": { "description": "Not Found" }
                 }
             },
             "put": {
-                "description": "",
+                "tags": ["User"],
+                "summary": "Atualizar usuário",
                 "parameters": [
+                    { "name": "id", "in": "path", "required": true, "type": "integer" },
                     {
-                        "name": "idGoal",
-                        "in": "path",
+                        "in": "body",
+                        "name": "body",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
+                        "schema": { "$ref": "#/definitions/UpdateUserDTO" }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK", "schema": { "$ref": "#/definitions/UserDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" }
                 }
             },
             "delete": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "idGoal",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "tags": ["User"],
+                "summary": "Excluir usuário",
+                "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK" },
+                    "404": { "description": "Not Found" }
                 }
             }
         },
+
+        "/v1/goal/{idUser}": {
+            "get": {
+                "tags": ["Goal"],
+                "summary": "Listar metas",
+                "parameters": [{ "name": "idUser", "in": "path", "required": true, "type": "integer" }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": { "type": "array", "items": { "$ref": "#/definitions/GoalDTO" } }
+                    },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
+                }
+            }
+        },
+
         "/v1/goal": {
-            "get": {
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
             "post": {
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
+                "tags": ["Goal"],
+                "summary": "Criar meta",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": { "$ref": "#/definitions/CreateGoalDTO" }
                     }
+                ],
+                "responses": {
+                    "201": { "description": "Created", "schema": { "$ref": "#/definitions/GoalDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
-        "/v1/revenue/{idRevenue}/{idUser}": {
-            "get": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "idRevenue",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
+
+        "/v1/goal/{idGoal}/{idUser}": {
             "put": {
-                "description": "",
+                "tags": ["Goal"],
+                "summary": "Atualizar meta",
                 "parameters": [
+                    { "name": "idGoal", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" },
                     {
-                        "name": "idRevenue",
-                        "in": "path",
+                        "in": "body",
+                        "name": "body",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
+                        "schema": { "$ref": "#/definitions/UpdateGoalDTO" }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK", "schema": { "$ref": "#/definitions/GoalDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             },
             "delete": {
-                "description": "",
+                "tags": ["Goal"],
+                "summary": "Excluir meta",
                 "parameters": [
-                    {
-                        "name": "idRevenue",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
+                    { "name": "idGoal", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
+
+        "/v1/revenue/{idUser}": {
+            "get": {
+                "tags": ["Revenue"],
+                "summary": "Listar receitas",
+                "parameters": [{ "name": "idUser", "in": "path", "required": true, "type": "integer" }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": { "type": "array", "items": { "$ref": "#/definitions/RevenueDTO" } }
+                    },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
+                }
+            }
+        },
+
         "/v1/revenue": {
-            "get": {
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
             "post": {
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
+                "tags": ["Revenue"],
+                "summary": "Criar receita",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": { "$ref": "#/definitions/CreateRevenueDTO" }
                     }
+                ],
+                "responses": {
+                    "201": { "description": "Created", "schema": { "$ref": "#/definitions/RevenueDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
-        "/v1/expense/{idExpense}/{idUser}": {
-            "get": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "idExpense",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
+
+        "/v1/revenue/{idRevenue}/{idUser}": {
             "put": {
-                "description": "",
+                "tags": ["Revenue"],
+                "summary": "Atualizar receita",
                 "parameters": [
+                    { "name": "idRevenue", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" },
                     {
-                        "name": "idExpense",
-                        "in": "path",
+                        "in": "body",
+                        "name": "body",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
+                        "schema": { "$ref": "#/definitions/UpdateRevenueDTO" }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK", "schema": { "$ref": "#/definitions/RevenueDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             },
             "delete": {
-                "description": "",
+                "tags": ["Revenue"],
+                "summary": "Excluir receita",
                 "parameters": [
-                    {
-                        "name": "idExpense",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
+                    { "name": "idRevenue", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
+
+        "/v1/expense/{idUser}": {
+            "get": {
+                "tags": ["Expense"],
+                "summary": "Listar despesas",
+                "parameters": [{ "name": "idUser", "in": "path", "required": true, "type": "integer" }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": { "type": "array", "items": { "$ref": "#/definitions/ExpenseDTO" } }
+                    },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
+                }
+            }
+        },
+
         "/v1/expense": {
-            "get": {
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
             "post": {
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
+                "tags": ["Expense"],
+                "summary": "Criar despesa",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": { "$ref": "#/definitions/CreateExpenseDTO" }
                     }
+                ],
+                "responses": {
+                    "201": { "description": "Created", "schema": { "$ref": "#/definitions/ExpenseDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
-        "/v1/amounttoreceive/{idAmountToReceive}/{idUser}": {
-            "get": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "idAmountToReceive",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
+
+        "/v1/expense/{idExpense}/{idUser}": {
             "put": {
-                "description": "",
+                "tags": ["Expense"],
+                "summary": "Atualizar despesa",
                 "parameters": [
+                    { "name": "idExpense", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" },
                     {
-                        "name": "idAmountToReceive",
-                        "in": "path",
+                        "in": "body",
+                        "name": "body",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
+                        "schema": { "$ref": "#/definitions/UpdateExpenseDTO" }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK", "schema": { "$ref": "#/definitions/ExpenseDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             },
             "delete": {
-                "description": "",
+                "tags": ["Expense"],
+                "summary": "Excluir despesa",
                 "parameters": [
-                    {
-                        "name": "idAmountToReceive",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
+                    { "name": "idExpense", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
+
+        "/v1/amounttoreceive/{idUser}": {
+            "get": {
+                "tags": ["AmountToReceive"],
+                "summary": "Listar valores a receber",
+                "parameters": [{ "name": "idUser", "in": "path", "required": true, "type": "integer" }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": { "type": "array", "items": { "$ref": "#/definitions/AmountToReceiveDTO" } }
+                    },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
+                }
+            }
+        },
+
         "/v1/amounttoreceive": {
-            "get": {
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
             "post": {
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
+                "tags": ["AmountToReceive"],
+                "summary": "Criar valor a receber",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": { "$ref": "#/definitions/CreateAmountToReceiveDTO" }
                     }
+                ],
+                "responses": {
+                    "201": { "description": "Created", "schema": { "$ref": "#/definitions/AmountToReceiveDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
-        "/v1/amounttopay/{idAmountToPay}/{idUser}": {
-            "get": {
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "idAmountToPay",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            },
+
+        "/v1/amounttoreceive/{idAmountToReceive}/{idUser}": {
             "put": {
-                "description": "",
+                "tags": ["AmountToReceive"],
+                "summary": "Atualizar valor a receber",
                 "parameters": [
+                    { "name": "idAmountToReceive", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" },
                     {
-                        "name": "idAmountToPay",
-                        "in": "path",
+                        "in": "body",
+                        "name": "body",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
+                        "schema": { "$ref": "#/definitions/UpdateAmountToReceiveDTO" }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK", "schema": { "$ref": "#/definitions/AmountToReceiveDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             },
             "delete": {
-                "description": "",
+                "tags": ["AmountToReceive"],
+                "summary": "Excluir valor a receber",
                 "parameters": [
-                    {
-                        "name": "idAmountToPay",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "idUser",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    }
+                    { "name": "idAmountToReceive", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             }
         },
-        "/v1/amounttopay": {
+
+        "/v1/amounttopay/{idUser}": {
             "get": {
-                "description": "",
+                "tags": ["AmountToPay"],
+                "summary": "Listar valores a pagar",
+                "parameters": [{ "name": "idUser", "in": "path", "required": true, "type": "integer" }],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": { "type": "array", "items": { "$ref": "#/definitions/AmountToPayDTO" } }
                     },
-                    "404": {
-                        "description": "Not Found"
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
+                }
+            }
+        },
+
+        "/v1/amounttopay": {
+            "post": {
+                "tags": ["AmountToPay"],
+                "summary": "Criar valor a pagar",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": { "$ref": "#/definitions/CreateAmountToPayDTO" }
                     }
+                ],
+                "responses": {
+                    "201": { "description": "Created", "schema": { "$ref": "#/definitions/AmountToPayDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
+                }
+            }
+        },
+
+        "/v1/amounttopay/{idAmountToPay}/{idUser}": {
+            "put": {
+                "tags": ["AmountToPay"],
+                "summary": "Atualizar valor a pagar",
+                "parameters": [
+                    { "name": "idAmountToPay", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": { "$ref": "#/definitions/UpdateAmountToPayDTO" }
+                    }
+                ],
+                "responses": {
+                    "200": { "description": "OK", "schema": { "$ref": "#/definitions/AmountToPayDTO" } },
+                    "400": { "description": "Bad Request" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
             },
-            "post": {
-                "description": "",
+            "delete": {
+                "tags": ["AmountToPay"],
+                "summary": "Excluir valor a pagar",
+                "parameters": [
+                    { "name": "idAmountToPay", "in": "path", "required": true, "type": "integer" },
+                    { "name": "idUser", "in": "path", "required": true, "type": "integer" }
+                ],
                 "responses": {
-                    "201": {
-                        "description": "Created"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
+                    "200": { "description": "OK" },
+                    "404": { "description": "Not Found" },
+                    "500": { "description": "Internal Server Error" }
                 }
+            }
+        }
+    },
+
+    "definitions": {
+        "LoginUserDTO": {
+            "type": "object",
+            "properties": {
+                "email": { "type": "string", "example": "user@example.com" },
+                "password": { "type": "string", "example": "senha123" }
+            },
+            "required": ["email", "password"]
+        },
+        "RegisterUserDTO": {
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "lastName": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" }
+            },
+            "required": ["name", "lastName", "email", "password"]
+        },
+        "UpdateUserDTO": {
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "lastName": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" }
+            }
+        },
+        "UserDTO": {
+            "type": "object",
+            "properties": {
+                "idUser": { "type": "integer" },
+                "name": { "type": "string" },
+                "lastName": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" },
+                "createdAt": { "type": "string", "format": "date-time" },
+                "updatedAt": { "type": "string", "format": "date-time" }
+            }
+        },
+        "CreateGoalDTO": {
+            "type": "object",
+            "properties": {
+                "goal": { "type": "string" },
+                "currentValue": { "type": "number" },
+                "totalValue": { "type": "number" },
+                "idUser": { "type": "integer" }
+            },
+            "required": ["goal", "currentValue", "totalValue", "idUser"]
+        },
+        "UpdateGoalDTO": {
+            "type": "object",
+            "properties": {
+                "goal": { "type": "string" },
+                "currentValue": { "type": "number" },
+                "totalValue": { "type": "number" }
+            }
+        },
+        "GoalDTO": {
+            "type": "object",
+            "properties": {
+                "idGoal": { "type": "integer" },
+                "goal": { "type": "string" },
+                "currentValue": { "type": "number" },
+                "totalValue": { "type": "number" },
+                "createdAt": { "type": "string", "format": "date-time" },
+                "updatedAt": { "type": "string", "format": "date-time" }
+            }
+        },
+        "CreateRevenueDTO": {
+            "type": "object",
+            "properties": {
+                "date": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" },
+                "idUser": { "type": "integer" }
+            },
+            "required": ["date", "description", "value", "idUser"]
+        },
+        "UpdateRevenueDTO": {
+            "type": "object",
+            "properties": {
+                "date": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" }
+            }
+        },
+        "RevenueDTO": {
+            "type": "object",
+            "properties": {
+                "idRevenue": { "type": "integer" },
+                "date": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" },
+                "createdAt": { "type": "string" },
+                "updatedAt": { "type": "string" }
+            }
+        },
+        "CreateExpenseDTO": {
+            "type": "object",
+            "properties": {
+                "date": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" },
+                "idUser": { "type": "integer" }
+            },
+            "required": ["date", "description", "value", "idUser"]
+        },
+        "UpdateExpenseDTO": {
+            "type": "object",
+            "properties": {
+                "date": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" }
+            }
+        },
+        "ExpenseDTO": {
+            "type": "object",
+            "properties": {
+                "idExpense": { "type": "integer" },
+                "date": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" },
+                "createdAt": { "type": "string" },
+                "updatedAt": { "type": "string" }
+            }
+        },
+        "CreateAmountToReceiveDTO": {
+            "type": "object",
+            "properties": {
+                "date": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" },
+                "idUser": { "type": "integer" }
+            },
+            "required": ["date", "name", "description", "value", "idUser"]
+        },
+        "UpdateAmountToReceiveDTO": {
+            "type": "object",
+            "properties": {
+                "date": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" }
+            }
+        },
+        "AmountToReceiveDTO": {
+            "type": "object",
+            "properties": {
+                "idAmountToReceive": { "type": "integer" },
+                "date": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" },
+                "createdAt": { "type": "string" },
+                "updatedAt": { "type": "string" }
+            }
+        },
+        "CreateAmountToPayDTO": {
+            "type": "object",
+            "properties": {
+                "date": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" },
+                "idUser": { "type": "integer" }
+            },
+            "required": ["date", "name", "description", "value", "idUser"]
+        },
+        "UpdateAmountToPayDTO": {
+            "type": "object",
+            "properties": {
+                "date": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" }
+            }
+        },
+        "AmountToPayDTO": {
+            "type": "object",
+            "properties": {
+                "idAmountToPay": { "type": "integer" },
+                "date": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "value": { "type": "number" },
+                "createdAt": { "type": "string" },
+                "updatedAt": { "type": "string" }
             }
         }
     }

@@ -11,15 +11,15 @@ interface JwtPayload {
 
 class AuthRoute {
     async auth(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        const authorization = req.headers.authorization;
+        const Authorization = req.headers.authorization;
 
-        if (!authorization) {
+        if (!Authorization) {
             return res.status(401).send({ message: 'Authorization required' });
         }
 
-        if (typeof authorization == 'string') {
+        if (typeof Authorization == 'string') {
             try {
-                const isValid = jwt.verify(authorization, String(process.env.JWT_KEY)) as JwtPayload;
+                const isValid = jwt.verify(Authorization, String(process.env.JWT_KEY)) as JwtPayload;
 
                 const { email, password }: AuthDTO = isValid;
 
@@ -32,11 +32,11 @@ class AuthRoute {
 
                 if (!userExists) {
                     return res.status(401).send({ message: 'Unauthorized' });
+                } else {
+                    next();
                 }
-
-                return res.status(200).send({ message: 'Authorized' });
             } catch (error) {
-                return res.status(401).send({ message: error });
+                return res.status(400).send({ message: error });
             }
         }
     }
