@@ -5,8 +5,6 @@
         "description": "API para controle financeiro",
         "version": "1.0.0"
     },
-    "host": "localhost:3000",
-    "basePath": "/",
     "schemes": ["http"],
     "consumes": ["application/json"],
     "produces": ["application/json"],
@@ -45,6 +43,7 @@
                         "schema": { "$ref": "#/definitions/LoginUserDTO" }
                     }
                 ],
+                "security": [],
                 "responses": {
                     "200": { "description": "OK" },
                     "400": { "description": "Bad Request" },
@@ -66,29 +65,11 @@
                         "schema": { "$ref": "#/definitions/RegisterUserDTO" }
                     }
                 ],
+                "security": [],
                 "responses": {
                     "201": { "description": "Created" },
                     "400": { "description": "Bad Request" },
                     "500": { "description": "Internal Server Error" }
-                }
-            }
-        },
-
-        "/auth": {
-            "get": {
-                "tags": ["Public"],
-                "summary": "Validar token",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": { "description": "OK" },
-                    "401": { "description": "Unauthorized" }
                 }
             }
         },
