@@ -1,12 +1,7 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import supertest from 'supertest';
 import app from '../src/server';
-import { AppDataSource } from '../src/data-source';
 import { RegisterUserDTO } from './../src/dtos/register.dto';
-
-beforeAll(async () => {
-    await AppDataSource.initialize();
-});
 
 describe('Register test', () => {
     it('should register successfully', async () => {
@@ -38,7 +33,7 @@ describe('Register test', () => {
         const response = await supertest(app).post('/register').send(userRegister);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message', 'all fields are required');
+        expect(response.body).toHaveProperty('message', 'All fields are required');
     });
 
     it('dont should register successfully | lastName not provided', async () => {
@@ -54,7 +49,7 @@ describe('Register test', () => {
         const response = await supertest(app).post('/register').send(userRegister);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message', 'all fields are required');
+        expect(response.body).toHaveProperty('message', 'All fields are required');
     });
 
     it('dont should register successfully | email not provided', async () => {
@@ -70,7 +65,7 @@ describe('Register test', () => {
         const response = await supertest(app).post('/register').send(userRegister);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message', 'all fields are required');
+        expect(response.body).toHaveProperty('message', 'All fields are required');
     });
 
     it('dont should register successfully | password not provided', async () => {
@@ -86,11 +81,11 @@ describe('Register test', () => {
         const response = await supertest(app).post('/register').send(userRegister);
 
         expect(response.status).toEqual(400);
-        expect(response.body).toHaveProperty('message', 'all fields are required');
+        expect(response.body).toHaveProperty('message', 'All fields are required');
     });
 
     it('dont should register successfully | email already registered', async () => {
-        const allUser = await supertest(app).get('/v1/user');
+        const allUser = await supertest(app).get('/test_route/user');
 
         const { email }: { email: string } = await allUser.body[0];
 

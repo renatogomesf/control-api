@@ -1,16 +1,11 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import supertest from 'supertest';
 import app from '../src/server';
-import { AppDataSource } from '../src/data-source';
 import { LoginUserDTO } from './../src/dtos/login.dto';
-
-beforeAll(async () => {
-    await AppDataSource.initialize();
-});
 
 describe('Login test', () => {
     it('should login successfully', async () => {
-        const allUser = await supertest(app).get('/v1/user');
+        const allUser = await supertest(app).get('/test_route/user');
 
         const { email, password }: LoginUserDTO = await allUser.body[0];
 
@@ -34,7 +29,7 @@ describe('Login test', () => {
         const response = await supertest(app).post('/login').send(userLogin);
 
         expect(response.status).toEqual(401);
-        expect(response.body).toHaveProperty('message', 'incorrect email or password');
+        expect(response.body).toHaveProperty('message', 'Incorrect email or password');
     });
 
     it('dont should login successfully | password not provided', async () => {

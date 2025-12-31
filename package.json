@@ -3,13 +3,19 @@
     "version": "1.0.0",
     "main": "src/server.ts",
     "scripts": {
-        "docker": "docker compose up -d",
         "dev": "tsx watch src/server.ts",
+        "build": "tsc",
+        "start": "node build/src/server.js",
+        "docker": "docker compose up -d",
         "createUser": "tsx src/utils/createUser.ts",
-        "test": "vitest run",
         "test:login": "vitest run test/login.test.ts",
         "test:register": "vitest run test/register.test.ts",
-        "test:user": "vitest run test/userTest"
+        "test:user": "vitest run test/user.test.ts",
+        "test:goal": "vitest run test/goal.test.ts",
+        "test:revenue": "vitest run test/revenue.test.ts",
+        "test:expense": "vitest run test/expense.test.ts",
+        "test:amountToReceive": "vitest run test/amountToReceive.test.ts",
+        "test:amountToPay": "vitest run test/amountToPay.test.ts"
     },
     "keywords": [],
     "author": "",

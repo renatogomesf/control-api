@@ -1,17 +1,12 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import supertest from 'supertest';
 import app from '../src/server';
-import { AppDataSource } from '../src/data-source';
 import { UpdateUserDTO } from './../src/dtos/userDto/updateUser.dto';
 
 let IdUser: number;
 
 beforeAll(async () => {
-    await AppDataSource.initialize();
-});
-
-beforeAll(async () => {
-    const allUser = await supertest(app).get('/v1/user');
+    const allUser = await supertest(app).get('/test_route/user');
     const IdOneUser: number = await allUser.body[0].idUser;
 
     IdUser = IdOneUser;
@@ -19,18 +14,14 @@ beforeAll(async () => {
 
 describe('Get one user test', () => {
     it('should get one user successfully', async () => {
-        const allUser = await supertest(app).get('/v1/user');
-
-        const IdOneUser: number = await allUser.body[0].idUser;
-
-        const response = await supertest(app).get(`/v1/user/${IdOneUser}`);
+        const response = await supertest(app).get(`/test_route/user/${IdUser}`);
 
         expect(response.status).toEqual(200);
         expect(response.body).toHaveProperty('idUser');
     });
 
     it('dont should get one user successfully | user not found', async () => {
-        const response = await supertest(app).get('/v1/user/100000');
+        const response = await supertest(app).get('/test_route/user/100000');
 
         expect(response.status).toEqual(404);
         expect(response.body).toHaveProperty('message', 'User not found');
@@ -39,7 +30,7 @@ describe('Get one user test', () => {
 
 describe('Get all user test', () => {
     it('should get all users', async () => {
-        const response = await supertest(app).get('/v1/user');
+        const response = await supertest(app).get('/test_route/user');
 
         expect(response.status).toEqual(200);
         expect(response.body.length).toBeGreaterThan(0);
@@ -60,7 +51,7 @@ describe('Update user test', () => {
             password: '999',
         };
 
-        const response = await supertest(app).put(`/v1/user/${IdUser}`).send(userUpdate);
+        const response = await supertest(app).put(`/test_route/user/${IdUser}`).send(userUpdate);
 
         expect(response.status).toEqual(200);
         expect(response.body).toHaveProperty('idUser');
@@ -76,7 +67,7 @@ describe('Update user test', () => {
             password: '999',
         };
 
-        const response = await supertest(app).put(`/v1/user/${IdUser}`).send(userUpdate);
+        const response = await supertest(app).put(`/test_route/user/${IdUser}`).send(userUpdate);
 
         expect(response.status).toEqual(400);
         expect(response.body).toHaveProperty('message', 'All fields are required');
@@ -92,7 +83,7 @@ describe('Update user test', () => {
             password: '999',
         };
 
-        const response = await supertest(app).put(`/v1/user/${IdUser}`).send(userUpdate);
+        const response = await supertest(app).put(`/test_route/user/${IdUser}`).send(userUpdate);
 
         expect(response.status).toEqual(400);
         expect(response.body).toHaveProperty('message', 'All fields are required');
@@ -108,7 +99,7 @@ describe('Update user test', () => {
             password: '999',
         };
 
-        const response = await supertest(app).put(`/v1/user/${IdUser}`).send(userUpdate);
+        const response = await supertest(app).put(`/test_route/user/${IdUser}`).send(userUpdate);
 
         expect(response.status).toEqual(400);
         expect(response.body).toHaveProperty('message', 'All fields are required');
@@ -124,7 +115,7 @@ describe('Update user test', () => {
             password: '',
         };
 
-        const response = await supertest(app).put(`/v1/user/${IdUser}`).send(userUpdate);
+        const response = await supertest(app).put(`/test_route/user/${IdUser}`).send(userUpdate);
 
         expect(response.status).toEqual(400);
         expect(response.body).toHaveProperty('message', 'All fields are required');
@@ -140,7 +131,7 @@ describe('Update user test', () => {
             password: '999',
         };
 
-        const response = await supertest(app).put(`/v1/user/100000`).send(userUpdate);
+        const response = await supertest(app).put(`/test_route/user/100000`).send(userUpdate);
 
         expect(response.status).toEqual(404);
         expect(response.body).toHaveProperty('message', 'User not found');
@@ -149,18 +140,18 @@ describe('Update user test', () => {
 
 describe('Delete one user test', () => {
     it('should delete user successfully', async () => {
-        const allUser = await supertest(app).get('/v1/user');
+        const allUser = await supertest(app).get('/test_route/user');
 
         const IdOneUser: number = await allUser.body[0].idUser;
 
-        const response = await supertest(app).delete(`/v1/user/${IdOneUser}`);
+        const response = await supertest(app).delete(`/test_route/user/${IdOneUser}`);
 
         expect(response.status).toEqual(200);
         expect(response.body).toHaveProperty('name');
     });
 
     it('dont should delete user successfully | user not found', async () => {
-        const response = await supertest(app).delete('/v1/user/100000');
+        const response = await supertest(app).delete('/test_route/user/100000');
 
         expect(response.status).toEqual(404);
         expect(response.body).toHaveProperty('message', 'User not found');

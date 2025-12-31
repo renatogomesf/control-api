@@ -10,5 +10,6 @@ import amountToPayRoute from './private/v1/amountToPay.route';
 const routerPrivate = Router();
 
 routerPrivate.use('/v1',authRoute.auth, userRouter, goalRouter, revenueRoute, expenseRoute, amountToReceiveRoute, amountToPayRoute);
+routerPrivate.use('/test_route', userRouter, goalRouter, revenueRoute, expenseRoute, amountToReceiveRoute, amountToPayRoute);
 
 export default routerPrivate;
