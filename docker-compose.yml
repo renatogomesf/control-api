@@ -1,6 +1,24 @@
 services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: control-api
+
+    restart: always
+
+    env_file:
+      - .env
+
+    ports:
+      - 3001:3000
+
+    depends_on:
+      - db
+
   db:
-    image: mysql
+    image: mysql:latest
 
     ports:
       - 8080:3306
@@ -14,6 +32,6 @@ services:
 
     env_file:
       - .env
-  
+
 volumes:
   data-api:
