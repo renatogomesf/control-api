@@ -17,10 +17,10 @@ export default class Goal {
     @Column('text')
     goal: string;
 
-    @Column('float')
+    @Column('double')
     currentValue: number;
 
-    @Column('float')
+    @Column('double')
     totalValue: number;
 
     @ManyToOne(() => User, (user) => user.goals, { onDelete: 'CASCADE' })

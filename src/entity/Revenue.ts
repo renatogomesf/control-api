@@ -21,7 +21,7 @@ export default class Revenue {
     @Column('text')
     description: string;
 
-    @Column('float')
+    @Column('double')
     value: number;
 
     @ManyToOne(() => User, (user) => user.revenue, { onDelete: 'CASCADE' })

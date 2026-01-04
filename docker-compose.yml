@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
 
-    container_name: control_api
+    container_name: control-api
 
     restart: always
 
@@ -18,17 +18,17 @@ services:
       - db
 
   db:
-    image: postgres:16-alpine
+    image: mysql:latest
 
     ports:
-      - 8080:5432
+      - 8080:3306
 
-    container_name: postgres_db
+    container_name: mysql_db
 
     restart: always
 
     volumes:
-      - ./data-api:/var/lib/postgresql/data
+      - ./data-api:/var/lib/mysql
 
     env_file:
       - .env

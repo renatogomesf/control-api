@@ -24,7 +24,7 @@ export default class AmountToReceive {
     @Column('text')
     description: string;
 
-    @Column('float')
+    @Column('double')
     value: number;
 
     @ManyToOne(() => User, (user) => user.amountToReceive, { onDelete: 'CASCADE' })
