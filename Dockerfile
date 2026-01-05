@@ -8,8 +8,9 @@ RUN npm install
 
 COPY . .
 
+
 RUN npm run build
 
 EXPOSE 3000
 
-CMD ["node", "build/src/server.js"]
+CMD ["sh", "-c", "npm run migration:run && node build/src/server.js"]

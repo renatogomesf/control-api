@@ -20,7 +20,7 @@ export const AppDataSource = new DataSource({
     logging: false,
     entities: [User, Goal, Revenue, Expense, AmountToReceive, AmountToPay],
     subscribers: [],
-    migrations: ['src/db/migrations/*{.js,.ts}'],
+    migrations: [__dirname + '/db/migrations/*{.js,.ts}'],
     migrationsRun: false,
     migrationsTableName: 'migrations',
     migrationsTransactionMode: 'all',

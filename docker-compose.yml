@@ -15,7 +15,8 @@ services:
       - 3001:3000
 
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: mysql:latest
@@ -32,6 +33,12 @@ services:
 
     env_file:
       - .env
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   data-api:
