@@ -7,8 +7,9 @@ import 'dotenv/config';
 
 try {
     AppDataSource.initialize();
+    console.log('Data Source has been initialized!');
 } catch (error) {
-    console.log(error);
+    console.error('Error during Data Source initialization', error);
 }
 
 import routerPrivate from './routes';

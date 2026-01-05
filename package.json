@@ -7,6 +7,9 @@
         "build": "tsc",
         "start": "node build/src/server.js",
         "docker": "docker compose up -d",
+        "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/data-source.ts src/db/migrations",
+        "migration:run": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
+        "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/data-source.ts",
         "createUser": "tsx src/utils/createUser.ts",
         "test:login": "vitest run test/login.test.ts",
         "test:register": "vitest run test/register.test.ts",
@@ -28,6 +31,8 @@
         "@types/swagger-ui-express": "^4.1.8",
         "supertest": "^7.1.4",
         "swagger-autogen": "^2.23.7",
+        "ts-node": "^10.9.2",
+        "tsconfig-paths": "^4.2.0",
         "tsx": "^4.20.6",
         "typescript": "^5.9.3",
         "vitest": "^4.0.5"
