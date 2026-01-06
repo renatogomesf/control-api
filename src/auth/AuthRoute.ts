@@ -5,8 +5,10 @@ import { AuthDTO } from '../dtos/auth.dto';
 import { UserDTO } from '../dtos/userDto/user.dto';
 
 interface JwtPayload {
+    idUser: number;
+    name: string;
+    lastName: string;
     email: string;
-    password: string;
 }
 
 class AuthRoute {
@@ -21,12 +23,14 @@ class AuthRoute {
             try {
                 const isValid = jwt.verify(Authorization, String(process.env.JWT_KEY)) as JwtPayload;
 
-                const { email, password }: AuthDTO = isValid;
+                const { idUser, name, lastName, email }: AuthDTO = isValid;
 
                 const userExists: UserDTO | null = await userRepository.findOne({
                     where: {
+                        idUser,
+                        name,
+                        lastName,
                         email,
-                        password,
                     },
                 });
 

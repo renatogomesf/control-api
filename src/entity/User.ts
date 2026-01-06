@@ -16,7 +16,7 @@ export default class User {
     @Column('text')
     lastName: string;
 
-    @Column('text')
+    @Column({ type: 'varchar', length: 150, unique: true })
     email: string;
 
     @Column('text')
