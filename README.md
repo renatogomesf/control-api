@@ -4,6 +4,8 @@ API para um aplicativo de controle financeiro.
 
 Este repositório contém uma API REST escrita em TypeScript.
 
+**OBS:** A [versão de produção](https://github.com/renatogomesf/control-api/tree/production-postgres) usa postgres pois era o fornecido pelo render. E a documentação feita em Swagger somente nesta branche "main" rodando localmente na sua máquina.
+
 **O que faz:**
 
 -   **Resumo:** Fornece endpoints para gerenciar receitas, despesas, metas e transferências.
@@ -53,7 +55,7 @@ DB_USER = ...
 
 ==========3° - Adicione os dados do servidor==========
 SERVER_PORT = ...
-SERVER_HOST = ...
+SERVER_HOST = 0.0.0.0 (use este)
 
 ==========4° - Crie uma chave jwt==========
 JWT_KEY = ...
@@ -83,7 +85,7 @@ Observação: o `docker-compose.yml` deste projeto mapeia a porta `3001` do host
 
 -   **Swagger UI (web):** http://localhost:3001/api-docs
 
-4. Alternativa: rodar localmente sem Docker (desenvolvimento)
+4. Alternativa: rodar localmente sem Docker (desenvolvimento) e com MySQL da sua máquina.
 
 Se preferir rodar localmente (Node.js/TypeScript), instale dependências, faça as mudanças no `.env` e execute:
 
