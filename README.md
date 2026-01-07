@@ -1,10 +1,25 @@
 # control-api
 
-API para um aplicativo de controle financeiro.
+[![Static Badge](https://img.shields.io/badge/Licen%C3%A7a-MIT-green)](https://github.com/renatogomesf/control-api/blob/main/LICENSE)
 
-Este repositório contém uma API REST escrita em TypeScript.
+API para o app [Control](https://github.com/renatogomesf/control)
 
-**OBS:** A [versão de produção](https://github.com/renatogomesf/control-api/tree/production-postgres) usa postgres pois era o fornecido pelo render. E a documentação feita em Swagger somente nesta branche "main" rodando localmente na sua máquina.
+Projeto demonstrativo (back-end) para apresentar competências. Este repositório contém uma API REST escrita em Node + TypeScript.
+
+## Stack usada
+
+-   **Linguagem:** Node.js + TypeScript
+-   **Framework HTTP:** Express
+-   **ORM:** TypeORM
+-   **Banco de dados:** MySQL (mysql2)
+-   **Autenticação / Segurança:** bcrypt, jsonwebtoken
+-   **Configuração de ambiente:** dotenv
+-   **Documentação:** Swagger (swagger-ui-express, swagger-autogen)
+-   **Testes:** Vitest, Supertest
+-   **Containerização:** Docker + Docker Compose
+-   **Outros:** cors
+
+**OBS:** A [versão de produção](https://github.com/renatogomesf/control-api/tree/production-postgres) usa postgres pois era o banco de dados fornecido naturalmente pelo render. E a documentação feita em Swagger somente nesta branche "main" rodando localmente na sua máquina.
 
 **O que faz:**
 
@@ -101,3 +116,9 @@ Como usar o Swagger
 -   Abra o navegador em http://localhost:3001/api-docs (caso use container docker)
 -   Localmente, use a porta definida http://localhost:`SERVER_PORT`/api-docs
 -   A interface permite ver os endpoints, exemplos de request/response e testar as rotas diretamente.
+
+## Autor
+
+Renato Gomes Ferreira
+
+https://www.linkedin.com/in/renato-gomes-22b759236/
