@@ -19,7 +19,12 @@ import registerRoute from './routes/register.route';
 const app = express();
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use(cors());
+app.use(
+    cors({
+        origin: 'https://controlbyrdev.vercel.app',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    })
+);
 app.use(express.json());
 app.use(loginRoute);
 app.use(registerRoute);
