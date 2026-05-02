@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
 
-    container_name: control-api
+    container_name: control
 
     restart: always
 

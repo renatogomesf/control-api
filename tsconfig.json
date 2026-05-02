@@ -5,13 +5,13 @@
 
     "compilerOptions": {
         "lib": ["es2024", "ESNext.Array", "ESNext.Collection", "ESNext.Iterator"],
-        "module": "commonjs",
+        "module": "nodenext",
         "target": "es2022",
         "outDir": "./build",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "moduleResolution": "node",
+        "moduleResolution": "nodenext",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "resolveJsonModule": true,
